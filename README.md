@@ -1,1 +1,1 @@
-# web_strategy_game
+# Land-of-the-Imagineers
