@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world</title>
+
+</head>
+<body>
+<div id="login-form">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="inputLogin" class="control-label col-xs-2 login-form-label">Имя</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" id="inputLogin" placeholder="Имя пользователя"
+                       name="username" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="control-label col-xs-2 login-form-label">Пароль</label>
+            <div class="col-xs-10">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Пароль"
+                       name="pass">
+            </div>
+        </div>
+        <button type="submit" class="darkSubmit" id="login_btn">Войти</button>
+        <form>
+
+</div>
+</body>
+</html>

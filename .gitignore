@@ -1,5 +1,9 @@
 /.idea/
 /__pycache__/
 *.pyc
+<<<<<<< HEAD
 
 Land_of_the_Imagineers/__pycache__/
+=======
+*cpython-38.pyc
+>>>>>>> dev-froggy
