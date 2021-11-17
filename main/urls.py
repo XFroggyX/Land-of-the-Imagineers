@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from main.views.login_page import login_page
-from main.views.main_page import main_page
+from . import views
 
 urlpatterns = [
-    url(r'^login/$', login_page),
-    url(r'^main/$', main_page),
+    url(r'login/', views.login_page),
+    url(r'main/', views.main_page),
+    url(r'sign_up/', views.sign_up)
 ]
