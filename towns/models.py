@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Towns(models.Model):
-    name_building = models.CharField(max_length=50)
+    name_town = models.CharField(max_length=50)
     point_x = models.IntegerField()
     point_y = models.IntegerField()
 
