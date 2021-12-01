@@ -1,5 +1,8 @@
 from django.db.models import Count
 
+from towns.models import Towns, PointsTownsBuildings, PointsTown
+from buildings.models import Buildings
+
 
 class Town:
     def __init__(self, towns_db, points_db, building_db, ptb_bd, id_town=None):
@@ -52,6 +55,7 @@ class Town:
         self.id = town.id
         return town.id
 
+    # Количество мест для зданий в городе
     def count_space_point(self) -> int:
         item = self.points_db.objects.annotate(num_point=Count('id'))
         return item[0].num_point + 1
@@ -88,3 +92,14 @@ class Town:
             point_id = item[i].id_point_town.id
             space[point_id] = item[i].id_building.name_building
         return space
+
+
+def create_town(town_name, x, y) -> None:
+    town = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
+    town.set_town_name(town_name)
+    town.set_coordinates(x, y)
+    town.save_town()
+
+
+def get_town_obj(id_town) -> Town:
+    return Town(Towns, PointsTown, Buildings, PointsTownsBuildings, id_town=id_town)
