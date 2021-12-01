@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'towns.apps.TownsConfig',
     'buildings.apps.BuildingConfig',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'field_game'
 ]
 
 MIDDLEWARE = [
