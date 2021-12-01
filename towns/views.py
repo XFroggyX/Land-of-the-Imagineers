@@ -4,12 +4,12 @@ from django.http import HttpResponse
 from towns.town.town import *
 from towns.models import Towns, PointsTownsBuildings, PointsTown
 from buildings.models import Buildings
-
+from towns.serializers import TownSerializer
+from rest_framework import viewsets
 
 # Create your views here.
 
-def index(request):
-    t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
+"""t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
     t.set_town_name("Город1")
     t.set_coordinates(1, 5)
     t.save_town()
@@ -23,5 +23,14 @@ def index(request):
     print(s.space_in_town())
     s.delete_building(5)
     print(s.space_in_town())
+"""
 
+"""
+def index(request):
     return HttpResponse("Town")
+"""
+
+
+class TownViewSet(viewsets.ModelViewSet):
+    queryset = Towns.objects.all().order_by('id')
+    serializer_class = TownSerializer
