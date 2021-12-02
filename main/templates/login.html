@@ -1,31 +1,57 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello world</title>
+    <title>Авторизация</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static  'css/auth.css' %}">
+
 
 </head>
+
 <body>
-<div id="login-form">
+<div>
     <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="inputLogin" class="control-label col-xs-2 login-form-label">Имя</label>
-            <div class="col-xs-10">
-                <input type="text" class="form-control" id="inputLogin" placeholder="Имя пользователя"
-                       name="username" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputPassword" class="control-label col-xs-2 login-form-label">Пароль</label>
-            <div class="col-xs-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Пароль"
-                       name="pass">
-            </div>
-        </div>
-        <button type="submit" class="darkSubmit" id="login_btn">Войти</button>
-        <form>
+        <div>
+            <header>
+                <img src="{% static  'img/logo.png' %}" width="75%" style="display:flex; margin: auto">
+            </header>
+            <div class="container d-none d-lg-block"> <!-- Виден только на LG и больше-->
+                <div class="row auth_form">
+                    <div class="col-lg back-input">
+                        <input class="inputs" type="text" placeholder="Логин" name="username">
+                    </div>
+                    <div class="col-lg back-button b-enter">
+                        <button class="buttons"></button>
+                    </div>
+                </div>
 
+                <div class="row auth_form">
+                    <div class="col-lg back-input">
+                        <input class="inputs inputs-pass" type="password" placeholder="Пароль" name="password">
+                    </div>
+                    <div class="col-lg back-button b-reg">
+                        <button class="buttons"></button>
+                    </div>
+                </div>
+
+
+                <!--<button class="log-in" class="submits sign-up" onclick="location.href='main.html'" type="button"> Войти </button>-->
+
+                <!--<div class="buttons">
+                    <button class="submits frgt-pass">Забыли пароль?</button>
+                    <button class="submits sign-up" onclick="location.href='sign-up.html'" type="button">Зарегистрироваться</button>
+                </div>-->
+            </div>
+
+        </div>
+    </form>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
 </html>
