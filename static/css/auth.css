@@ -1,0 +1,189 @@
+@font-face {
+    font-family: 'Conv_shylock_nbp';
+    src: url('../../static/fonts/shylock_nbp.eot');
+    src: local('🤡'), url('../../static/fonts/shylock_nbp.woff') format('woff'), url('../../static/fonts/shylock_nbp.ttf') format('truetype'), url('../../static/fonts/shylock_nbp.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+body{
+    background-color: #262626;
+    font-family: "Conv_shylock_nbp";
+    font-size: xxx-large;
+}
+
+
+.b-enter{
+    background-image: url("../../static/img/enter-hover.png");
+}
+.b-enter:hover{
+    background-image: url("../../static/img/enter.png");
+}
+.b-enter:active{
+    background-image: url("../../static/img/enter-active.png");
+}
+
+.b-enter-reg{
+    background-image: url("../../static/img/enter-hover.png");
+    background-position: center;
+}
+.b-enter-reg:hover{
+    background-image: url("../../static/img/enter.png");
+    background-position: center;
+}
+.b-enter-reg:active{
+    background-image: url("../../static/img/enter-active.png");
+    background-position: center;
+}
+
+.b-reg{
+    background-image: url("../../static/img/registration-hover.png");
+}
+.b-reg:hover{
+    background-image: url("../../static/img/registration.png");
+}
+.b-reg:active{
+    background-image: url("../../static/img/registration-active.png");
+}
+
+
+.b-pass{
+    background-image: url("../../static/img/forgetpass-hover.png");
+}
+.b-pass:hover{
+    background-image: url("../../static/img/forgetpass.png");
+}
+.b-pass:active{
+    background-image: url("../../static/img/forgetpass-active.png");
+}
+
+
+.auth_form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+
+.back-button{
+
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transition: background-image 0.5s ease;
+
+    height: 80px;
+
+    margin-top: 1%;
+    padding: 0;
+
+
+}
+.back-button-reg{
+
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transition: background-image 0.5s ease;
+
+    height: 85px;
+
+    display: block;
+    margin: 0 auto;
+
+
+}
+.buttons{
+    background-color: transparent;
+
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100%;
+
+    padding-right: 20%;
+
+}
+
+.buttons-reg{
+    background-color: transparent;
+
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding-right: 35%;
+    padding-left: 35%;
+
+}
+.back-input{
+    background-image: url("../../static/img/input.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    margin-left: 10%;
+    margin-top: 1%;
+    padding: 0;
+    height: 80px;
+
+    display: flex;
+    justify-content: center;
+}
+.back-input-reg{
+    background-image: url("../../static/img/input.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    display: block;
+    margin: 0 auto;
+    height: 85px;
+    margin-bottom: 5px;
+}
+.back-input:focus{
+    background-image: url("../../static/img/input-focus.png");
+}
+.inputs-reg{
+    background-color: transparent;
+
+    padding-left: 30%;
+    padding-right: 30%;
+
+    outline: none;
+    border: none;
+
+    color: aliceblue;
+    font-size: xx-large;
+    transition: background-image 0.5s ease;
+    display: block;
+    margin: 0 auto;
+    height: 85px;
+}
+.inputs{
+
+    background-color: transparent;
+
+    padding-left: 10%;
+    padding-right: 25%;
+
+    outline: none;
+    border: none;
+
+    color: aliceblue;
+    font-size: xx-large;
+    transition: background-image 0.5s ease;
+}
+.inputs-pass{
+    -webkit-text-security: square;
+}
+
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
