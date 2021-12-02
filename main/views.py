@@ -1,9 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.template.context_processors import csrf
 from .forms import UsersRegisterForm
 
 
@@ -18,7 +16,7 @@ def login_page(request):
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect("/main")
+        return redirect("/town")
 
     return render(request, 'login.html', dict())
 
@@ -38,7 +36,6 @@ def sign_up(request):
         email = request.POST.get('email')
         if User.objects.filter(email=email).exists():
             messages.error(request, "This email already registered")
-
         else:
             if form.is_valid():
                 instance = form.save()
