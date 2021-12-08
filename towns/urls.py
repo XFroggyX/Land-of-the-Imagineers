@@ -1,18 +1,19 @@
 from django.urls import path, include
-from rest_framework import routers
-from rest_framework.urlpatterns import format_suffix_patterns
+from .views import TownViewSet, towns_list, snippet_detail
 
-from . import views
-from django.conf.urls import url
+from rest_framework import routers
 
 
 router = routers.DefaultRouter()
-router.register(r'towns', views.TownViewSet)
+router.register('town', TownViewSet, 'town')
 
-urlpatterns = [
+urlpatterns = router.urls
+
+"""
+    [
     #path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/', views.towns_list),
-    path('<int:pk>', views.snippet_detail),
+    path('api/', towns_list),
+    path('<int:pk>', snippet_detail),
 ]
-
+"""

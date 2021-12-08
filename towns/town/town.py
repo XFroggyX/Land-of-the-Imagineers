@@ -1,7 +1,7 @@
 from django.db.models import Count
 
-from towns.models import Towns, PointsTownsBuildings, PointsTown
-from buildings.models import Buildings
+from ..models import Town as Towns, PointsTownsBuilding as PointsTownsBuildings, PointsTown
+from buildings.models import Building as Buildings
 
 
 class Town:

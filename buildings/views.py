@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from buildings.build.create_buildings import *
 
-from buildings.models import Buildings
+from buildings.models import Building
 
 
 # чтение и запись в бд
@@ -15,7 +15,7 @@ def test_import_castle_bd():
     wood = 4
     iron = 3
     size = 200
-    castle = Buildings(
+    castle = Building(
         name_building=name,
         building_level=lvl,
         building_health=hp,
@@ -26,11 +26,11 @@ def test_import_castle_bd():
     )
     castle.save()
 
-    get_castle = Buildings.objects.all()
+    get_castle = Building.objects.all()
     assert get_castle[0] == castle
     get_castle[0].delete()
 
 
 def index(request):
-    c = ConcreteCastle().create_building(Buildings)
+    c = ConcreteCastle().create_building(Building)
     return HttpResponse(c.get_name())
