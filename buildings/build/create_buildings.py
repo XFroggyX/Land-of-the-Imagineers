@@ -2,24 +2,24 @@ from abc import ABC, abstractmethod
 
 from buildings.build.buildings import *
 
-from buildings.models import Buildings
+from buildings.models import Building
 
 
 class BuildingsCreator(ABC):
     @abstractmethod
-    def create_building(self, buildings_bd: Buildings):
+    def create_building(self, buildings_bd: Building):
         pass
 
 
 class ConcreteCastle(BuildingsCreator):
-    def create_building(self, buildings_bd: Buildings) -> Castle:
+    def create_building(self, buildings_bd: Building) -> Castle:
         item = buildings_bd.objects.filter(name_building="Замок")[0]
         return Castle(item.name_building, item.building_level, item.building_health, item.stone, item.wood,
                       item.iron, item.size_warehouse, item.id_unit)
 
 
 class ConcreteWarehouse(BuildingsCreator):
-    def create_building(self, buildings_bd: Buildings) -> Castle:
+    def create_building(self, buildings_bd: Building) -> Castle:
         item = buildings_bd.objects.filter(name_building="Склад")[0]
         return Castle(item.name_building, item.building_level, item.building_health, item.stone, item.wood,
                       item.iron, item.size_warehouse, item.id_unit)
