@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'towns.apps.TownsConfig',
     'buildings.apps.BuildingConfig',
     'main.apps.MainConfig',
+    'rest_framework',
     'field_game'
 ]
 

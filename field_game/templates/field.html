@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    {% csrf_token %}
     <canvas class="canvas"></canvas>
     <script type="module" src="{% static 'js/index.js' %}" ></script>
 </body>

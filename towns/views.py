@@ -36,7 +36,7 @@ def index(request):
 class TownViewSet(viewsets.ModelViewSet):
     queryset = Towns.objects.all().order_by('id')
     serializer_class = TownsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 @api_view(['GET', 'POST'])
