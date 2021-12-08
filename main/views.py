@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from towns.models import Town
 from .forms import UsersRegisterForm
@@ -64,3 +66,6 @@ class TownCreateView(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = TownSerializer
+
+
+        

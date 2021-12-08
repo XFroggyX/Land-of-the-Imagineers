@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework import routers
 
-from towns.views import TownCreateView
+from .views import TownCreateView
 from . import views
 
 router = routers.SimpleRouter()
