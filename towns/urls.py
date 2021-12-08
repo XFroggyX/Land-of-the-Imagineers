@@ -1,11 +1,11 @@
 from django.urls import path, include
-from .views import TownCreateView, index
+from .views import  index
 
 from rest_framework import routers
 
 
 router = routers.SimpleRouter()
-router.register('api', TownCreateView, 'town')
+#router.register('api', TownCreateView, 'town')
 
 urlpatterns = [
     path('', index, name='index'),
