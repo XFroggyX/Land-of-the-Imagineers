@@ -1,19 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from .town.town import *
+from rest_framework import status, generics
 
-from towns.town.town import *
-from towns.models import Towns, PointsTownsBuildings, PointsTown
-from buildings.models import Buildings
-from towns.serializers import TownsSerializer
-from rest_framework import viewsets, permissions, status
+from .models import Town
+from rest_framework import viewsets, permissions
+from .serializers import TownSerializer
 
 # Create your views here.
 
-"""t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
+"""
+t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
     t.set_town_name("Город1")
     t.set_coordinates(1, 5)
     t.save_town()
@@ -30,23 +28,25 @@ from rest_framework import viewsets, permissions, status
     
 def index(request):
     return HttpResponse("Town")
-"""
+
 
 
 class TownViewSet(viewsets.ModelViewSet):
-    queryset = Towns.objects.all().order_by('id')
-    serializer_class = TownsSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer
 
 
 @api_view(['GET', 'POST'])
 def towns_list(request, format=None):
     if request.method == 'GET':
-        town = Towns.objects.all()
-        serializer = TownsSerializer(town, many=True)
+        town = Town.objects.all()
+        serializer = TownSerializer(town, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = TownsSerializer(data=request.data)
+        serializer = TownSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -56,16 +56,16 @@ def towns_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 def snippet_detail(request, pk, format=None):
     try:
-        town = Towns.objects.get(pk=pk)
-    except Towns.DoesNotExist:
+        town = Town.objects.get(pk=pk)
+    except Town.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = TownsSerializer(town)
+        serializer = TownSerializer(town)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = TownsSerializer(town, data=request.data)
+        serializer = TownSerializer(town, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -74,3 +74,15 @@ def snippet_detail(request, pk, format=None):
     elif request.method == 'DELETE':
         town.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+"""
+
+
+class TownCreateView(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer
+
+def index(request):
+    return HttpResponse("Town")

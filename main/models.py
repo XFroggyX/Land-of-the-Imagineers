@@ -1,7 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
-class Users(models.Model):
-    email = models.EmailField(null=False, blank=False)
-    nickname = models.CharField(max_length=255, verbose_name=u"Nickname", null=False, blank=False)
-    password = models.CharField(max_length=25, verbose_name=u"Password", null=False, blank=False)
+class UsersOfTown(models.Model):
+    UsersID = models.ForeignKey(User, on_delete=models.CASCADE)
+    TownsID = models.ForeignKey('towns.Town', on_delete=models.CASCADE)

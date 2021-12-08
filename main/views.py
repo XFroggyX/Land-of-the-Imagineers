@@ -1,16 +1,18 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.template.context_processors import csrf
+from rest_framework import viewsets, permissions
+
+from towns.models import Town
 from .forms import UsersRegisterForm
+from .serializers import TownSerializer
 
 
 def login_page(request):
     user = request.user
     if user.is_authenticated:
-        return redirect("/main/map")
+        return redirect("/town")
     if request.method == "GET":
         pass
     if request.method == "POST":
@@ -18,7 +20,7 @@ def login_page(request):
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect("/main/map")
+        return redirect("/town")
 
     return render(request, 'login.html', dict())
 
@@ -38,7 +40,6 @@ def sign_up(request):
         email = request.POST.get('email')
         if User.objects.filter(email=email).exists():
             messages.error(request, "This email already registered")
-
         else:
             if form.is_valid():
                 instance = form.save()
@@ -55,3 +56,11 @@ def sign_up(request):
         form = UsersRegisterForm()
     context = {'form': form}
     return render(request, 'sign_up_page.html', context)
+
+
+class TownCreateView(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer
