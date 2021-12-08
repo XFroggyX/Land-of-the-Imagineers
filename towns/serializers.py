@@ -1,19 +1,19 @@
-from towns.models import Towns
+from .models import Town
 from rest_framework import serializers
 
 
-class TownsSerializer(serializers.HyperlinkedModelSerializer):
+class TownSerializer(serializers.ModelSerializer):
     name_town = serializers.CharField(max_length=50)
     point_x = serializers.IntegerField()
     point_y = serializers.IntegerField()
 
     class Meta:
-        model = Towns
-        fields = ('id', 'name_town', 'point_x', 'point_y')
+        model = Town
+        fields = '__all__'
 
     def create(self, validated_data):
         print(validated_data)
-        return Towns.objects.create(**validated_data)
+        return Town.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.name_town = validated_data.get('name_town', instance.name_town)

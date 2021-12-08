@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Towns(models.Model):
+class Town(models.Model):
     name_town = models.CharField(max_length=50)
     point_x = models.IntegerField()
     point_y = models.IntegerField()
@@ -12,7 +12,7 @@ class PointsTown(models.Model):
     point_y = models.IntegerField()
 
 
-class PointsTownsBuildings(models.Model):
+class PointsTownsBuilding(models.Model):
     id_point_town = models.ForeignKey('PointsTown', on_delete=models.CASCADE,)
-    id_building = models.ForeignKey('buildings.Buildings', on_delete=models.CASCADE,)
-    id_town = models.ForeignKey('Towns', on_delete=models.CASCADE,)
+    id_building = models.ForeignKey('buildings.Building', on_delete=models.CASCADE,)
+    id_town = models.ForeignKey('Town', on_delete=models.CASCADE,)
