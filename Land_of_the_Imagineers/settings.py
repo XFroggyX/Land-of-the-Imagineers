@@ -129,9 +129,6 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join('static'),)
 
-TOWNS_URL = '/towns/'
-TOWNS_ROOT = os.path.join(BASE_DIR, 'towns')
-
 if DEBUG:
     import mimetypes
     mimetypes.add_type("application/javascript", ".js", True)

@@ -1,13 +1,18 @@
 from django.urls import path, include
-from .views import TownViewSet, towns_list, snippet_detail
+from .views import TownCreateView, index
 
 from rest_framework import routers
 
 
-router = routers.DefaultRouter()
-router.register('town', TownViewSet, 'town')
+router = routers.SimpleRouter()
+router.register('api', TownCreateView, 'town')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', index, name='index'),
+]
+
+urlpatterns += router.urls
+
 
 """
     [

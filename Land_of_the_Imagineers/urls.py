@@ -20,13 +20,8 @@ from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    #path('town/', include('towns.urls')),
+    path('town/', include('towns.urls')),
     #path('town/buildings', include('buildings.urls')),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/', include('towns.urls'))
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.TOWNS_URL, document_root=settings.TOWNS_ROOT)

@@ -2,7 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from rest_framework import viewsets, permissions
+
+from towns.models import Town
 from .forms import UsersRegisterForm
+from .serializers import TownSerializer
 
 
 def login_page(request):
@@ -52,3 +56,11 @@ def sign_up(request):
         form = UsersRegisterForm()
     context = {'form': form}
     return render(request, 'sign_up_page.html', context)
+
+
+class TownCreateView(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer

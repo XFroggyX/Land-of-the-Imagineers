@@ -1,7 +1,8 @@
+from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .town.town import *
-from rest_framework import status
+from rest_framework import status, generics
 
 from .models import Town
 from rest_framework import viewsets, permissions
@@ -9,7 +10,8 @@ from .serializers import TownSerializer
 
 # Create your views here.
 
-"""t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
+"""
+t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
     t.set_town_name("Город1")
     t.set_coordinates(1, 5)
     t.save_town()
@@ -26,7 +28,7 @@ from .serializers import TownSerializer
     
 def index(request):
     return HttpResponse("Town")
-"""
+
 
 
 class TownViewSet(viewsets.ModelViewSet):
@@ -72,3 +74,15 @@ def snippet_detail(request, pk, format=None):
     elif request.method == 'DELETE':
         town.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+"""
+
+
+class TownCreateView(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer
+
+def index(request):
+    return HttpResponse("Town")
