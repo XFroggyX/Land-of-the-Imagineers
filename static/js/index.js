@@ -118,11 +118,10 @@ function makeInstance(geometry, x, y, z) {
             var val = input.value
 
             $.ajax({
-                url: '/town/api/',
+                url: '/api/',
                 method: 'post',
-                csrfmiddlewaretoken: $csrfmiddlewaretoken,
                 dataType: 'json',
-                data: {name_town: val, point_x: cube.position.x, point_y: cube.position.y},
+                data: {name_town: val, point_x: cube.position.x, point_y: cube.position.z},
                 success: function(data){
                     cube.material.color.setHex( 0xFF8844 );
                 }

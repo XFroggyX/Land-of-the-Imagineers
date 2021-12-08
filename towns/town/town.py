@@ -15,7 +15,7 @@ class Town:
         if id_town is not None:
             item = towns_db.objects.filter(id=id_town)[0]
             self.town_name = item.name_town
-            if self.town_name == "The name of the town is occupied":
+            if self.town_name == "The name opy f the town is occupied":
                 raise ValueError
             self.point_x = item.point_x
             self.point_y = item.point_y
