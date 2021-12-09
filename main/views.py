@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, mixins, status
+from rest_framework.decorators import action, api_view
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -60,7 +62,7 @@ def sign_up(request):
     return render(request, 'sign_up_page.html', context)
 
 
-class TownCreateView(viewsets.ModelViewSet):
+class TownViewSet(viewsets.ModelViewSet):
     queryset = Town.objects.all().order_by('id')
     permission_classes = [
         permissions.AllowAny
@@ -68,4 +70,39 @@ class TownCreateView(viewsets.ModelViewSet):
     serializer_class = TownSerializer
 
 
-        
+@api_view(['GET', 'POST'])
+def towns_list(request, format=None):
+    if request.method == 'GET':
+        town = Town.objects.all()
+        serializer = TownSerializer(town, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = TownSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def snippet_detail(request, pk, format=None):
+    try:
+        town = Town.objects.get(pk=pk)
+    except Town.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = TownSerializer(town)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = TownSerializer(town, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        town.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
