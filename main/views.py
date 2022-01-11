@@ -10,7 +10,8 @@ from rest_framework.views import APIView
 
 from towns.models import Town
 from .forms import UsersRegisterForm
-from .serializers import TownSerializer
+from .models import UsersOfTown
+from .serializers import TownSerializer, UsersOfTownSerializer
 
 
 def login_page(request):
@@ -70,18 +71,25 @@ class TownViewSet(viewsets.ModelViewSet):
     serializer_class = TownSerializer
 
 
+@api_view(['POST'])
+def create_town(request, x, y, form=None):
+    pass
+
+
 @api_view(['GET', 'POST'])
 def towns_list(request, format=None):
     if request.method == 'GET':
         town = Town.objects.all()
         serializer = TownSerializer(town, many=True)
         return Response(serializer.data)
+    """
     elif request.method == 'POST':
         serializer = TownSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    """
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -106,3 +114,16 @@ def snippet_detail(request, pk, format=None):
         town.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET', 'POST'])
+def users_towns_list(request, format=None):
+    if request.method == 'GET':
+        town_users = UsersOfTown.objects.all()
+        serializer = UsersOfTownSerializer(town_users, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = UsersOfTownSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

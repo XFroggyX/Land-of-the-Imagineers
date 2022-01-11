@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework import routers
 
-from .views import TownViewSet, towns_list, snippet_detail
+from .views import TownViewSet, towns_list, snippet_detail, create_town, users_towns_list
 from . import views
 
 router = routers.SimpleRouter()
@@ -14,8 +14,10 @@ urlpatterns = [
     url(r'login/', views.login_page),
     url(r'main/', views.main_page),
     url(r'sign_up/', views.sign_up),
+    url('api/user_list', users_towns_list),
     url('api/list', towns_list),
-    url('api/list/<int:pk>', snippet_detail)
+    url('api/list/<int:pk>', snippet_detail),
+    url('api/create/<int:x, int:y>', create_town)
 ]
 
 urlpatterns += router.urls
