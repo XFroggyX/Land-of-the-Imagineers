@@ -71,6 +71,18 @@ class TownViewSet(viewsets.ModelViewSet):
     serializer_class = TownSerializer
 
 
+class StructTownViewSet(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer(queryset, many=True)
+
+    def retrieve(self, request, *args, **kwargs):  #kwargs - параметр подходит для get
+        return Response({'something': kwargs})
+
+
+
 @api_view(['POST'])
 def create_town(request, x, y, form=None):
     pass

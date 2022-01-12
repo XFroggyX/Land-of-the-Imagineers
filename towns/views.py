@@ -1,6 +1,9 @@
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
+from django.http import HttpResponse, JsonResponse
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .town.town import *
 from rest_framework import status, generics
 
@@ -85,5 +88,25 @@ class TownCreateView(viewsets.ModelViewSet):
     serializer_class = TownSerializer
     
 """
+
+
+class TownViewSet(viewsets.ModelViewSet):
+    queryset = Town.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = TownSerializer
+
+
+@api_view(['GET'])
+def user_count_view(request, format=None):
+    """
+    A view that returns the count of active users in JSON.
+    """
+    user_count = Town.objects.count()
+    content = {'user_count': user_count}
+    return Response(content)
+
+
 def index(request):
     return HttpResponse("Town")

@@ -44,6 +44,3 @@ class TownSerializer(serializers.ModelSerializer):
         instance.point_y = validated_data.get('point_y', instance.point_y)
         instance.save()
         return instance
-
-    def validate_position(self, town):
-        pass
