@@ -96,11 +96,6 @@ class TownCreateView(viewsets.ModelViewSet):
 
 def index(request):
     s = T(Town, PointsTown, Building, PointsTownsBuilding, id_town=1)
-    id = s.get_id()
-    name = s.get_town_name()
-    wood = s.get_wood()
-    iron = s.get_iron()
-    stone = s.get_stone()
-    point = s.get_builds_town()
-    print(id, name, wood, iron, stone, point)
+    s.place_building(1, 2)
+    print(s.space_in_town())
     return HttpResponse("Town")

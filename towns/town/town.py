@@ -94,14 +94,13 @@ class Town:
         return item[0].num_point + 1
 
     def place_building(self, point_id, building_id) -> None:
-        points_obj = self.points_db.objects.filter(id=point_id)[0]
-        building_obj = self.building_db.objects.filter(id=building_id)[0]
-        town_obj = self.towns_db.objects.filter(id=self.id)[0]
-        town = self.ptb_db(
-            id_point_town=points_obj,
-            id_building=building_obj,
-            id_town=town_obj
-        )
+        points_obj = self.points_db.objects.get(id=point_id)
+        building_obj = self.building_db.objects.get(id=building_id)
+        town_obj = self.towns_db.objects.get(id=self.id)
+        town = self.ptb_db()
+        town.id_point_town = points_obj
+        town.id_building = building_obj
+        town.id_town = town_obj
         town.save()
 
     def list_buildings(self) -> dict:
