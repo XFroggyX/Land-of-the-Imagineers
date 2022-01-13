@@ -26,6 +26,26 @@ class UsersOfTownSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class BuildsTownSerializer(serializers.Serializer):
+    nameBuild = serializers.CharField(max_length=30)
+    lvlBuild = serializers.IntegerField()
+
+
+class PointsSerializer(serializers.Serializer):
+    pointID = BuildsTownSerializer(required=False)
+
+
+class TownStructSerializer(serializers.Serializer):
+    townName = serializers.CharField(max_length=50)
+    wood = serializers.IntegerField()
+    iron = serializers.IntegerField()
+    stone = serializers.IntegerField()
+    points = PointsSerializer()
+
+    class Meta:
+        fields = ['email', 'username', 'password']
+
+
 class TownSerializer(serializers.ModelSerializer):
     name_town = serializers.CharField(max_length=50)
     point_x = serializers.IntegerField()

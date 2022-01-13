@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions, mixins, status
 from rest_framework.decorators import action, api_view
 from rest_framework.generics import GenericAPIView
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from towns.models import Town
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
-from .serializers import TownSerializer, UsersOfTownSerializer
+from .serializers import TownSerializer, UsersOfTownSerializer, TownStructSerializer
 
 
 def login_page(request):
@@ -71,16 +72,42 @@ class TownViewSet(viewsets.ModelViewSet):
     serializer_class = TownSerializer
 
 
-class StructTownViewSet(viewsets.ModelViewSet):
-    queryset = Town.objects.all().order_by('id')
+my_town = {"id": 1, "townName": "HappyTown", "wood": 30, "iron": 23, "stone": 56, "points": {
+    1: {
+        "nameBuild": "Замок",
+        "lvl": 2
+    },
+    2: {},
+    3: {}
+}
+           }
+
+
+class StructTownViewSet(viewsets.ViewSet):
     permission_classes = [
         permissions.AllowAny
     ]
-    serializer_class = TownSerializer(queryset, many=True)
 
-    def retrieve(self, request, *args, **kwargs):  #kwargs - параметр подходит для get
-        return Response({'something': kwargs})
+    serializer = TownStructSerializer(data=my_town)
+    serializer.is_valid()
 
+
+    def list(self, request):
+        return Response(self.serializer.data)  # выводит все
+
+    def retrieve(self, request, *args, **kwargs):  # kwargs - параметр подходит для get
+        return Response(my_town)
+
+    @action(detail=True, methods=['post'])
+    def edit_town(self, request, pk=None):
+        print(request.data)
+        serializer = TownStructSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({'status': 'password set'})
+        else:
+            print(serializer.errors)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
