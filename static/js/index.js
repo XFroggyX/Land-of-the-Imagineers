@@ -54,6 +54,13 @@ for(let i = 0; i < EDGE_LEN; i++)
 
 }
 
+
+$(document).on('hidden.bs.modal','#createCity', function (){
+    var child = document.getElementById("popup");
+    body.removeChild(child);
+});
+
+
 function render() {
     if (resizeRendererToDisplaySize(renderer)) {
         const canvas = renderer.domElement;
@@ -86,10 +93,7 @@ function makeInstance(geometry, x, y, z) {
         map: texture,
     });
 
-
-
     const cube = new THREE.Mesh(geometry, material);
-    console.log(cube)
     scene.add(cube)
 
     cube.position.x = x;
@@ -99,42 +103,57 @@ function makeInstance(geometry, x, y, z) {
     cube.rotation.x = -1.5708;
 
     domEvents.addEventListener(cube, 'click', function(event){
-        console.log(cube.position.x);
-        console.log(cube.position.y);
-        console.log(cube.position.z);
+      body.appendChild(createPopup());
+      $('#createCity').modal('show');
 
-       var popup = document.createElement("div");
-       popup.style.cssText = "position: fixed; top: 40px; left: 40px; height: 200px; width: 400px; background: gray";
+      var button = document.getElementById("pop-but");
 
-       var input = document.createElement("input");
-       input.style.cssText = "height: 30%; width: 90%;";
-       popup.appendChild(input);
-
-       var button = document.createElement("button");
-       button.style.cssText = "height: 30%; width: 90%;";
-       popup.appendChild(button);
-
-       button.onclick = function() {
-            var val = input.value
-
-            $.ajax({
-                url: '/api/',
-                method: 'post',
-                dataType: 'json',
-                data: {name_town: val, point_x: cube.position.x, point_y: cube.position.z},
-                success: function(data){
-                    cube.material.color.setHex( 0xFF8844 );
-                }
-            });
-
-            body.removeChild(popup);
-        };
-
-       body.appendChild(popup);
-
+      button.onclick = function() {
+        var val = input.value
+        $.ajax({
+        url: '/api/',
+        method: 'post',
+        dataType: 'json',
+        data: {name_town: val, point_x: cube.position.x, point_y: cube.position.z},
+        success: function(data){
+            cube.material.color.setHex( 0xFF8844 );
+        }
+        });
+        removePopup();
+      };
     }, false)
 
     return cube;
+}
+
+
+function createPopup(){
+    var popup = document.createElement("div");
+    popup.id = 'popup';
+
+    popup.innerHTML = '' +
+        '<div class="modal fade" style="width:660px;" id="createCity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
+            '<div class="modal-dialog">' +
+                '<div class="modal-content">' +
+                    '<div class="modal-body container">' +
+                        '<div class="popup-input element">' +
+                            '<input class="in-input pb-3" type="text"  placeholder="Название города">' +
+                        '</div>' +
+                        '<div class="popup-button element">' +
+                            '<button id="pop-but" class="in-button"></button>' +
+                        '</div>' +
+                    '</div>' +
+                 '</div>' +
+            '</div>' +
+            '</div>' +
+        '</div>';
+
+    return popup;
+}
+
+
+function removePopup(){
+
 }
 
 requestAnimationFrame(render);

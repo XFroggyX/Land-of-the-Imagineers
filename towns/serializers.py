@@ -9,7 +9,7 @@ class TownSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Town
-        fields = '__all__'
+        fields = ('name_town', 'point_x', 'point_y')
 
     def create(self, validated_data):
         return Town.objects.create(**validated_data)

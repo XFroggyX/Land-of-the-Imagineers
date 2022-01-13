@@ -6,12 +6,6 @@
     font-style: normal;
 }
 
-#createCity{
-    position: fixed;
-    top:30%;
-    left: 30%;
-}
-
 body{
     background-color: rgba(26, 26, 26, 0.4);
     font-family: "Conv_shylock_nbp";

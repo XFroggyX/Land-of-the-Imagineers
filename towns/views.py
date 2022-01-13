@@ -76,13 +76,14 @@ def snippet_detail(request, pk, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
-
+"""
 class TownCreateView(viewsets.ModelViewSet):
     queryset = Town.objects.all().order_by('id')
     permission_classes = [
         permissions.AllowAny
     ]
     serializer_class = TownSerializer
-
+    
+"""
 def index(request):
     return HttpResponse("Town")
