@@ -34,14 +34,18 @@ controls.panSpeed = 2
 controls.minDistance = 5;
 controls.maxDistance = 5;
 
-
-
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(0, 10, 0)
 
-
 let domEvents = new THREEx.DomEvents(camera, renderer.domElement);
 const geometry = new THREE.PlaneGeometry();
+
+const town_texture = new THREE.TextureLoader().load('../../static/img/textures/town.png');
+town_texture.magFilter = THREE.NearestFilter;
+
+const texture = new THREE.TextureLoader().load('../../static/img/textures/grass(no).png');
+texture.magFilter = THREE.NearestFilter;
+
 
 let cubes = [];
 for(let i = 0; i < EDGE_LEN; i++)
@@ -60,6 +64,7 @@ $(document).on('hidden.bs.modal','#createCity', function (){
     body.removeChild(child);
 });
 
+updateTowns();
 
 function render() {
     if (resizeRendererToDisplaySize(renderer)) {
@@ -86,9 +91,6 @@ function resizeRendererToDisplaySize(renderer) {
 
 
 function makeInstance(geometry, x, y, z) {
-    const texture = new THREE.TextureLoader().load('../../static/img/textures/grass(no).png');
-    texture.magFilter = THREE.NearestFilter;
-
     const material = new THREE.MeshBasicMaterial({
         map: texture,
     });
@@ -107,6 +109,10 @@ function makeInstance(geometry, x, y, z) {
       $('#createCity').modal('show');
 
       var button = document.getElementById("pop-but");
+      var input = document.getElementById("pop-inp");
+
+      var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
 
       button.onclick = function() {
         var val = input.value
@@ -114,12 +120,18 @@ function makeInstance(geometry, x, y, z) {
         url: '/api/',
         method: 'post',
         dataType: 'json',
-        data: {name_town: val, point_x: cube.position.x, point_y: cube.position.z},
-        success: function(data){
-            cube.material.color.setHex( 0xFF8844 );
-        }
+        data: {
+            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+            name_town: val,
+            point_x: cube.position.x,
+            point_y: cube.position.z
+        },
+            success: function(data){
+                cube.material.map = town_texture;
+            }
         });
-        removePopup();
+        $('#createCity').modal('hide');
+        updateTowns();
       };
     }, false)
 
@@ -137,7 +149,7 @@ function createPopup(){
                 '<div class="modal-content">' +
                     '<div class="modal-body container">' +
                         '<div class="popup-input element">' +
-                            '<input class="in-input pb-3" type="text"  placeholder="Название города">' +
+                            '<input id="pop-inp" class="in-input pb-3" type="text"  placeholder="Название города">' +
                         '</div>' +
                         '<div class="popup-button element">' +
                             '<button id="pop-but" class="in-button"></button>' +
@@ -152,8 +164,19 @@ function createPopup(){
 }
 
 
-function removePopup(){
-
+function updateTowns()
+{
+    $.ajax({
+	url: '/api/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        for (let index = 0; index < data.length; ++index) {
+            cubes[data[index].point_x][data[index].point_y].material.map = town_texture;
+        }
+    }
+});
 }
+
 
 requestAnimationFrame(render);
