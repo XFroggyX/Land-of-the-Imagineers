@@ -126,5 +126,5 @@ def index(request):
     stone = s.get_stone()
     point = s.get_builds_town()
     """
-    print(s.struct_town())
+    print(s.struct())
     return HttpResponse("Town")

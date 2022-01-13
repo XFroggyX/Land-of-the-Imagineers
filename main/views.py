@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -10,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from towns.models import Town
-from towns.town.town import get_struct_town
+from towns.town.town import get_struct_town, edit_struct_town
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
 from .serializers import TownSerializer, UsersOfTownSerializer, TownStructSerializer
@@ -99,7 +101,7 @@ class StructTownViewSet(viewsets.ViewSet):
     def edit_town(self, request, pk=None):
         serializer = TownStructSerializer(data=request.data)
         if serializer.is_valid():
-            return Response({'status': 'password set'})
+            return Response(edit_struct_town(pk, request.data))
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)

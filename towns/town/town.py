@@ -1,3 +1,5 @@
+import sys
+
 from django.db.models import Count
 
 from ..models import Town as Towns, PointsTownsBuilding as PointsTownsBuildings, PointsTown
@@ -59,16 +61,20 @@ class Town:
         self.point_y = y
 
     def save_town(self) -> int:
-        town = self.towns_db(
-            name_town=self.town_name,
-            point_x=self.point_x,
-            point_y=self.point_y
-        )
-        town.save()
-        self.id = town.id
-        return town.id
+        item = self.towns_db.objects.get(id=self.id)
 
-    def struct_town(self) -> dict:
+        item.name_town = self.town_name
+        item.point_x = self.point_x
+        item.point_y = self.point_y
+        item.stone = self.stone
+        item.wood = self.wood
+        item.iron = self.iron
+
+        item.save()
+        self.id = item.id
+        return item.id
+
+    def struct(self) -> dict:
         townStruct = {
             "id": self.id,
             "townName": self.town_name,
@@ -87,14 +93,24 @@ class Town:
 
     # place_building - используется для постройки сданий в городе
     def place_building(self, point_id, building_id) -> None:
-        points_obj = self.points_db.objects.get(id=point_id)
-        building_obj = self.building_db.objects.get(id=building_id)
-        town_obj = self.towns_db.objects.get(id=self.id)
-        town = self.ptb_db()
-        town.id_point_town = points_obj
-        town.id_building = building_obj
-        town.id_town = town_obj
-        town.save()
+        if self.ptb_db.objects.filter(id_town=self.id, id_point_town=point_id):
+            points_obj = self.points_db.objects.get(id=point_id)
+            building_obj = self.building_db.objects.get(id=building_id)
+            town_obj = self.towns_db.objects.get(id=self.id)
+            town = self.ptb_db.objects.get(id_town=self.id, id_point_town=point_id)
+            town.id_point_town = points_obj
+            town.id_building = building_obj
+            town.id_town = town_obj
+            town.save()
+        else:
+            points_obj = self.points_db.objects.get(id=point_id)
+            building_obj = self.building_db.objects.get(id=building_id)
+            town_obj = self.towns_db.objects.get(id=self.id)
+            town = self.ptb_db()
+            town.id_point_town = points_obj
+            town.id_building = building_obj
+            town.id_town = town_obj
+            town.save()
 
     # list_buildings - возвращает список возможных для постройки зданий
     def list_buildings(self) -> dict:
@@ -120,6 +136,35 @@ class Town:
             space[point_id]["lvl"] = item[i].id_building.building_level
         return space
 
+    def edit_struct(self, struct: dict) -> str:
+        if struct["townName"] == self.towns_db.objects.filter(id=self.id)[0].name_town:
+            pass
+        elif not self.towns_db.objects.filter(name_town=struct["townName"]):
+            self.town_name = struct["townName"]
+            self.save_town()
+        else:
+            return "Name is taken"
+
+        pointsTown = struct["points"]
+        for point, value in pointsTown.items():
+            if not value:
+                continue
+
+            if not self.points_db.objects.filter(id=point):
+                return "There is no such point"
+
+            sys.stdout.write(f"\n#########{value}########\n")
+
+            if not self.building_db.objects.filter(name_building=value["nameBuild"], building_level=value["lvl"]):
+                return "There is no such building"
+
+            building_obj = self.building_db.objects.filter(name_building=value["nameBuild"],
+                                                           building_level=value["lvl"])[0]
+
+            self.place_building(point, building_obj.id)
+
+        return "Ok"
+
 
 def create_town(town_name, x, y) -> None:
     town = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
@@ -132,6 +177,11 @@ def get_town_obj(id_town) -> Town:
     return Town(Towns, PointsTown, Buildings, PointsTownsBuildings, id_town=id_town)
 
 
+def edit_struct_town(id_town, data: dict) -> str:
+    town = get_town_obj(id_town)
+    return town.edit_struct(data)
+
+
 def get_struct_town(id_town) -> dict:
     town = get_town_obj(id_town)
-    return town.struct_town()
+    return town.struct()
