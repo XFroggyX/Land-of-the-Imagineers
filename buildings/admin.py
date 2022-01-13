@@ -4,3 +4,4 @@ from .models import Building, Unit
 
 admin.site.register(Building)
 admin.site.register(Unit)
+

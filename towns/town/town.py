@@ -19,13 +19,17 @@ class Town:
                 raise ValueError
             self.point_x = item.point_x
             self.point_y = item.point_y
+            self.wood = item.wood
+            self.iron = item.iron
+            self.stone = item.stone
+
         else:
             self.town_name = ""
             self.point_x = None
             self.point_y = None
             self.id = None
 
-        self.count_space = self.count_space_point() + 1  # Количество мест для сданий
+        self.count_space = self.count_space_point() + 1  # Количество мест для зданий
 
     def set_town_name(self, town_name_: str) -> str:
         item = self.towns_db.objects.filter(name_town=town_name_)
@@ -37,6 +41,15 @@ class Town:
 
     def get_id(self) -> int:
         return self.id
+
+    def get_wood(self):
+        return self.wood
+
+    def get_iron(self):
+        return self.iron
+
+    def get_stone(self):
+        return self.stone
 
     def get_town_name(self) -> str:
         return self.town_name
@@ -54,6 +67,26 @@ class Town:
         town.save()
         self.id = town.id
         return town.id
+
+    def get_builds_town(self):
+        count_points = len(self.points_db.objects.annotate(Count('id')))
+        count_points = [n for n in range(1, count_points + 1)]
+        all_builds = self.ptb_db.objects.all()
+        count_ptd = len(all_builds)
+        list_ptd_id = []
+        result = {}
+        for i in range(count_ptd):
+            list_ptd_id.append(all_builds[i].id_point_town_id)
+        for j in range(count_ptd):
+            for i in range(len(count_points)):
+                if count_points[i] not in list_ptd_id:
+                    result.update({count_points[i]: {}})
+                else:
+                    print(all_builds[2].id_building_id)
+                    result.update({count_points[i]: {
+                        'nameBuild': self.building_db.objects.all()[all_builds[j].id_building_id].name_building,
+                        'lvl': self.building_db.objects.all()[all_builds[j].id_building_id].building_level}})
+        return result
 
     # Количество мест для зданий в городе
     def count_space_point(self) -> int:
