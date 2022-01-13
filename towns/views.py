@@ -1,24 +1,30 @@
-from django.http import HttpResponse, JsonResponse
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from django.http import HttpResponse
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .town.town import *
+
 from rest_framework import status, generics
 
 from .models import Town
 from rest_framework import viewsets, permissions
+
+from buildings.build.buildings import Buildings
+from buildings.models import Building
+from .models import PointsTown, PointsTownsBuilding, Town
 from .serializers import TownSerializer
 
 # Create your views here.
+from .town.town import Town as T
 
 """
-t = Town(Towns, PointsTown, Buildings, PointsTownsBuildings)
-    t.set_town_name("Город1")
-    t.set_coordinates(1, 5)
-    t.save_town()
-
+t = Town(Town, PointsTown, Buildings, PointsTownsBuilding)
+t.set_town_name("Город1")
+t.set_coordinates(1, 5)
+t.save_town()
+"""
+"""
     s = Town(Towns, PointsTown, Buildings, PointsTownsBuildings, id_town=8)
     print(s.get_town_name())
     print(s.space_in_town())
@@ -108,5 +114,15 @@ def user_count_view(request, format=None):
     return Response(content)
 
 
+
+
 def index(request):
+    s = T(Town, PointsTown, Building, PointsTownsBuilding, id_town=1)
+    id = s.get_id()
+    name = s.get_town_name()
+    wood = s.get_wood()
+    iron = s.get_iron()
+    stone = s.get_stone()
+    point = s.get_builds_town()
+    print(id, name, wood, iron, stone, point)
     return HttpResponse("Town")
