@@ -29,7 +29,7 @@ class Town:
             self.point_y = None
             self.id = None
 
-        self.count_space = self.count_space_point() + 1  # Количество мест для зданий
+        self.count_space = self.count_space_point()  # Количество мест для зданий
 
     def set_town_name(self, town_name_: str) -> str:
         item = self.towns_db.objects.filter(name_town=town_name_)
@@ -68,31 +68,24 @@ class Town:
         self.id = town.id
         return town.id
 
-    def get_builds_town(self):
-        count_points = len(self.points_db.objects.annotate(Count('id')))
-        count_points = [n for n in range(1, count_points + 1)]
-        all_builds = self.ptb_db.objects.all()
-        count_ptd = len(all_builds)
-        list_ptd_id = []
-        result = {}
-        for i in range(count_ptd):
-            list_ptd_id.append(all_builds[i].id_point_town_id)
-        for j in range(count_ptd):
-            for i in range(len(count_points)):
-                if count_points[i] not in list_ptd_id:
-                    result.update({count_points[i]: {}})
-                else:
-                    print(all_builds[2].id_building_id)
-                    result.update({count_points[i]: {
-                        'nameBuild': self.building_db.objects.all()[all_builds[j].id_building_id].name_building,
-                        'lvl': self.building_db.objects.all()[all_builds[j].id_building_id].building_level}})
-        return result
+    def struct_town(self) -> dict:
+        townStruct = {
+            "id": self.id,
+            "townName": self.town_name,
+            "wood": self.wood,
+            "iron": self.iron,
+            "stone": self.stone,
+            "points": self.places_builds()
+        }
+
+        return townStruct
 
     # Количество мест для зданий в городе
     def count_space_point(self) -> int:
-        item = self.points_db.objects.annotate(num_point=Count('id'))
-        return item[0].num_point + 1
+        count_points = len(self.points_db.objects.annotate(Count('id')))
+        return count_points
 
+    # place_building - используется для постройки сданий в городе
     def place_building(self, point_id, building_id) -> None:
         points_obj = self.points_db.objects.filter(id=point_id)[0]
         building_obj = self.building_db.objects.filter(id=building_id)[0]
@@ -104,6 +97,7 @@ class Town:
         )
         town.save()
 
+    # list_buildings - возвращает список возможных для постройки зданий
     def list_buildings(self) -> dict:
         item = self.building_db.objects.all()
         buildings_id = {}
@@ -117,13 +111,14 @@ class Town:
         if item:
             item.delete()
 
-    # space_in_town - свободное место в городе
-    def space_in_town(self) -> dict:
+    # places_builds - расположение объектов в городе
+    def places_builds(self) -> dict:
         item = self.ptb_db.objects.filter(id_town=self.id).order_by('id_point_town')
-        space = {i + 1: "" for i in range(self.count_space + 1)}
+        space = {i + 1: {} for i in range(self.count_space)}
         for i in range(len(item)):
             point_id = item[i].id_point_town.id
-            space[point_id] = item[i].id_building.name_building
+            space[point_id]["nameBuild"] = item[i].id_building.name_building
+            space[point_id]["lvl"] = item[i].id_building.building_level
         return space
 
 
@@ -136,3 +131,8 @@ def create_town(town_name, x, y) -> None:
 
 def get_town_obj(id_town) -> Town:
     return Town(Towns, PointsTown, Buildings, PointsTownsBuildings, id_town=id_town)
+
+
+def get_struct_town(id_town) -> dict:
+    town = get_town_obj(id_town)
+    return town.struct_town()

@@ -118,11 +118,13 @@ def user_count_view(request, format=None):
 
 def index(request):
     s = T(Town, PointsTown, Building, PointsTownsBuilding, id_town=1)
+    """ 
     id = s.get_id()
     name = s.get_town_name()
     wood = s.get_wood()
     iron = s.get_iron()
     stone = s.get_stone()
     point = s.get_builds_town()
-    print(id, name, wood, iron, stone, point)
+    """
+    print(s.struct_town())
     return HttpResponse("Town")

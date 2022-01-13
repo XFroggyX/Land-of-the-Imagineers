@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from towns.models import Town
+from towns.town.town import get_struct_town
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
 from .serializers import TownSerializer, UsersOfTownSerializer, TownStructSerializer
@@ -88,24 +89,18 @@ class StructTownViewSet(viewsets.ViewSet):
         permissions.AllowAny
     ]
 
-    serializer = TownStructSerializer(data=my_town)
-    serializer.is_valid()
-
-
     def list(self, request):
-        return Response(self.serializer.data)  # выводит все
+        return Response({"error": "Миха, укажи id города"})
 
     def retrieve(self, request, *args, **kwargs):  # kwargs - параметр подходит для get
-        return Response(my_town)
+        return Response(get_struct_town(kwargs['pk']))
 
     @action(detail=True, methods=['post'])
     def edit_town(self, request, pk=None):
-        print(request.data)
         serializer = TownStructSerializer(data=request.data)
         if serializer.is_valid():
             return Response({'status': 'password set'})
         else:
-            print(serializer.errors)
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
