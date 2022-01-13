@@ -1,17 +1,16 @@
+from django.conf.urls import url
 from django.urls import path, include
-from .views import TownCreateView, index
+
+from main.views import TownViewSet
+from .views import index, user_count_view
 
 from rest_framework import routers
 
-
-router = routers.SimpleRouter()
-router.register('api', TownCreateView, 'town')
+#router.register('api', TownCreateView, 'town')
 
 urlpatterns = [
-    path('', index, name='index'),
+    url('', index, name='index'),
 ]
-
-urlpatterns += router.urls
 
 
 """
