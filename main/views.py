@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -5,13 +7,15 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions, mixins, status
 from rest_framework.decorators import action, api_view
 from rest_framework.generics import GenericAPIView
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from towns.models import Town
+from towns.town.town import get_struct_town, edit_struct_town
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
-from .serializers import TownSerializer, UsersOfTownSerializer
+from .serializers import TownSerializer, UsersOfTownSerializer, TownStructSerializer
 
 
 def login_page(request):
@@ -69,6 +73,38 @@ class TownViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = TownSerializer
+
+
+my_town = {"id": 1, "townName": "HappyTown", "wood": 30, "iron": 23, "stone": 56, "points": {
+    1: {
+        "nameBuild": "Замок",
+        "lvl": 2
+    },
+    2: {},
+    3: {}
+}
+           }
+
+
+class StructTownViewSet(viewsets.ViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    def list(self, request):
+        return Response({"error": "Миха, укажи id города"})
+
+    def retrieve(self, request, *args, **kwargs):  # kwargs - параметр подходит для get
+        return Response(get_struct_town(kwargs['pk']))
+
+    @action(detail=True, methods=['post'])
+    def edit_town(self, request, pk=None):
+        serializer = TownStructSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(edit_struct_town(pk, request.data))
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
