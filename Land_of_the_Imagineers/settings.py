@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'towns.apps.TownsConfig',
     'buildings.apps.BuildingConfig',
     'main.apps.MainConfig',
-    'rest_framework',]
+    'rest_framework',
+    'field_game'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,7 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_ROOT = ''
+
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (os.path.join('static'),)
 
 if DEBUG:
