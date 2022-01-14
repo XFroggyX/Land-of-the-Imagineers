@@ -129,7 +129,7 @@ class Town:
     # places_builds - расположение объектов в городе
     def places_builds(self) -> dict:
         item = self.ptb_db.objects.filter(id_town=self.id).order_by('id_point_town')
-        space = {i + 1: {} for i in range(self.count_space)}
+        space = {i + 1: {} for i in range(self.count_space)} 
         for i in range(len(item)):
             point_id = item[i].id_point_town.id
             space[point_id]["nameBuild"] = item[i].id_building.name_building

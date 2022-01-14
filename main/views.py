@@ -12,10 +12,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from towns.models import Town
+from towns.serializers import TownSerializer
 from towns.town.town import get_struct_town, edit_struct_town
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
-from .serializers import TownSerializer, UsersOfTownSerializer, TownStructSerializer
+from .serializers import UsersOfTownSerializer, TownStructSerializer, UserSerializer
 
 
 def login_page(request):
@@ -75,6 +76,14 @@ class TownViewSet(viewsets.ModelViewSet):
     serializer_class = TownSerializer
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('id')
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = UserSerializer
+
+
 my_town = {"id": 1, "townName": "HappyTown", "wood": 30, "iron": 23, "stone": 56, "points": {
     1: {
         "nameBuild": "Замок",
@@ -105,6 +114,48 @@ class StructTownViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+
+
+new = {
+    "UsersID": 1,
+    "TownsID": 1
+}
+
+
+def edit_user_town(data: dict) -> str:
+    if not User.objects.filter(id=data["UsersID"]) or not Town.objects.filter(id=data["TownsID"]):
+        return "User or Town are used"
+    else:
+        user_obj = User.objects.get(id=data["UsersID"])
+        town_obj = Town.objects.get(id=data["TownsID"])
+        user_town = UsersOfTown()
+        user_town.UsersID = user_obj
+        user_town.TownsID = town_obj
+        user_town.save()
+
+    return "Ok"
+
+
+class UserListViewSet(viewsets.ViewSet):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    def list(self, request):
+        queryset = UsersOfTown.objects.all().order_by('id')
+        return Response(UsersOfTownSerializer(queryset, many=True).data)
+
+    @action(detail=True, methods=['post'])
+    def edit_user_town(self, request, pk=None):
+        serializer = UsersOfTownSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(edit_user_town(request.data))
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    # queryset = UsersOfTown.objects.all().order_by('id')
+    # serializer_class = UsersOfTownSerializer(queryset, many=True)
 
 
 @api_view(['POST'])
