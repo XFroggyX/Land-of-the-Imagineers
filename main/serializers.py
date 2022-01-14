@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -17,13 +19,29 @@ class UsersOfTownSerializer(serializers.ModelSerializer):
 """
 
 
-class UsersOfTownSerializer(serializers.ModelSerializer):
-    UsersID = serializers.ReadOnlyField(source='UsersID.id')
-    TownsID = serializers.ReadOnlyField(source='TownsID.id')
+class UsersOfTownSerializer(serializers.Serializer):
+    UsersID = serializers.IntegerField(source='UsersID.id')
+    TownsID = serializers.IntegerField(source='TownsID.id')
 
     class Meta:
         model = UsersOfTown
-        fields = "__all__"
+        fields = ['id', 'UsersID', 'TownsID']
+
+    """
+    def create(self, validated_data):
+        sys.stdout.write(f"{validated_data}")
+        data = {"UsersID": validated_data["UsersID"]['id'], "TownsID": validated_data["TownsID"]['id']}
+        return UsersOfTown.objects.get_or_create(
+            UsersID=User.objects.get(id=validated_data["UsersID"]['id']),
+            TownsID=Town.objects.get(id=validated_data["TownsID"]['id'])
+        )
+
+    def update(self, instance, validated_data):
+        instance.UsersID = validated_data.get('UsersID.id', instance.UsersID)
+        instance.TownsID = validated_data.get('TownsID.id', instance.TownsID)
+        instance.save()
+        return instance
+    """
 
 
 class BuildsTownSerializer(serializers.Serializer):
@@ -46,6 +64,13 @@ class TownStructSerializer(serializers.Serializer):
         fields = ['email', 'username', 'password']
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'is_superuser', 'username')
+
+
+"""
 class TownSerializer(serializers.ModelSerializer):
     name_town = serializers.CharField(max_length=50)
     point_x = serializers.IntegerField()
@@ -64,3 +89,4 @@ class TownSerializer(serializers.ModelSerializer):
         instance.point_y = validated_data.get('point_y', instance.point_y)
         instance.save()
         return instance
+"""
