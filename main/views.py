@@ -214,3 +214,13 @@ def users_towns_list(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def current_user(request):
+    if request.user.is_authenticated:
+        id = request.user.id
+        username = request.user.username
+        return Response({'id': id, 'username': username})
+    else:
+        return Response({"error": "User not identified"})
