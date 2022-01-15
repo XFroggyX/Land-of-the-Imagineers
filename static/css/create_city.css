@@ -9,7 +9,6 @@
 body{
     background-color: rgba(26, 26, 26, 0.4);
     font-family: "Conv_shylock_nbp";
-    font-size: xxx-large;
 }
 
 .modal-dialog{
@@ -18,7 +17,10 @@ body{
 
     display: flex;
     margin: 0 auto;
+
+    font-size: xxx-large;
 }
+
 .modal-content{
     background-image: url("../../static/img/create-popup.png");
     background-repeat: no-repeat;

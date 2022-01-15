@@ -9,7 +9,7 @@ const body = document.querySelector('body');
 const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xbfe3dd );
+scene.background = new THREE.Color( 0x95d8c8 );
 
 const EDGE_LEN = 20;
 
@@ -117,14 +117,17 @@ function makeInstance(geometry, x, y, z) {
       button.onclick = function() {
         var val = input.value
         $.ajax({
-        url: '/api/',
+        url: '/api/town/',
         method: 'post',
         dataType: 'json',
         data: {
             csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
             name_town: val,
             point_x: cube.position.x,
-            point_y: cube.position.z
+            point_y: cube.position.z,
+            stone: 100,
+            wood: 100,
+            iron: 100
         },
             success: function(data){
                 cube.material.map = town_texture;
@@ -167,7 +170,7 @@ function createPopup(){
 function updateTowns()
 {
     $.ajax({
-	url: '/api/',
+	url: '/api/town/',
 	method: 'get',
 	dataType: 'json',
 	success: function(data){
