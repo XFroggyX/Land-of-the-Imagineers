@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from towns.models import Town
 from towns.serializers import TownSerializer
 from towns.town.town import get_struct_town, edit_struct_town
+from units.views import create_unit
 from .forms import UsersRegisterForm
 from .models import UsersOfTown
 from .serializers import UsersOfTownSerializer, TownStructSerializer, UserSerializer
@@ -114,6 +115,10 @@ class StructTownViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def create_unit(self, request, pk=None):
+        return Response(create_unit(request.data['unit_id'], pk))
 
 
 new = {
@@ -228,7 +233,3 @@ def current_user(request):
         return Response({'id': id, 'username': username})
     else:
         return Response({"error": "User not identified"})
-
-
-
-
