@@ -9,12 +9,3 @@ class Building(models.Model):
     wood = models.PositiveSmallIntegerField()
     iron = models.PositiveSmallIntegerField()
     size_warehouse = models.PositiveIntegerField(null=True)
-    id_unit = models.ForeignKey(
-        'Unit',
-        on_delete=models.CASCADE,
-        null=True,
-    )
-
-
-class Unit(models.Model):
-    pass

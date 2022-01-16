@@ -29,7 +29,7 @@ class Buildings(ABC):
 
 
 class Castle(Buildings):
-    def __init__(self, name, level, health, stone, wood, iron, size_warehouse, id_unit):
+    def __init__(self, name, level, health, stone, wood, iron, size_warehouse):
         self.name = name
         self.level = level
         self.health = health
@@ -37,7 +37,6 @@ class Castle(Buildings):
         self.wood = wood
         self.iron = iron
         self.size_warehouse = size_warehouse
-        self.id_unit = id_unit
 
     def get_name(self) -> str:
         return self.name
@@ -56,7 +55,7 @@ class Castle(Buildings):
 
 
 class Warehouse(Buildings):
-    def __init__(self, name, level, health, stone, wood, iron, size_warehouse, id_unit):
+    def __init__(self, name, level, health, stone, wood, iron, size_warehouse):
         self.name = name
         self.level = level
         self.health = health
@@ -64,7 +63,6 @@ class Warehouse(Buildings):
         self.wood = wood
         self.iron = iron
         self.size_warehouse = size_warehouse
-        self.id_unit = id_unit
 
     def get_name(self) -> str:
         return self.name
