@@ -25,7 +25,7 @@ class PointsTownsBuilding(models.Model):
     id_town = models.ForeignKey(Town, on_delete=models.CASCADE, )
 
 
-class TownUnits(models.Model):
+class TownUnit(models.Model):
     id_town = models.ForeignKey(Town, on_delete=models.CASCADE, )
     id_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, )
     count_units = models.PositiveIntegerField()

@@ -5,13 +5,13 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from battle.battle.fight import record_battle_in_db, get_all_battle_result
+from battle.battle.fight import record_battle_in_db, get_all_battle_result, fight
 from battle.serializers import BattleStructSerializer
 
 b = {"attacking": 0, "defending": 1}
 
 
-def fight(id1, id2):
+def figfht(id1, id2):
     return [1, 2]
 
 
@@ -22,8 +22,8 @@ class BattleListViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'])
     def start_battle(self, request):
-        winUser, loser = fight(0, 1)
         data = request.data
+        winUser, loser = fight(data["attacking"], data["defending"])
         record_battle_in_db(data["attacking"], data["defending"], winUser)
         return Response({"result": "ok"})
 
