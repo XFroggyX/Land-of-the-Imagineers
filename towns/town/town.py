@@ -153,8 +153,6 @@ class Town:
             if not self.points_db.objects.filter(id=point):
                 return "There is no such point"
 
-            sys.stdout.write(f"\n#########{value}########\n")
-
             if not self.building_db.objects.filter(name_building=value["nameBuild"], building_level=value["lvl"]):
                 return "There is no such building"
 

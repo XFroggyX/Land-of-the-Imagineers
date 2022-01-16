@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'buildings.apps.BuildingConfig',
     'main.apps.MainConfig',
     'rest_framework',
-    'field_game'
+    'field_game',
+    'battle.apps.BattleConfig',
+    'units.apps.UnitsConfig',
 ]
 
 MIDDLEWARE = [

@@ -229,3 +229,7 @@ def current_user(request):
         return Response({'id': id, 'username': username})
     else:
         return Response({"error": "User not identified"})
+
+
+
+
