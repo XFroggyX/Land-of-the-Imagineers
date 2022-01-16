@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'rest_framework',
     'field_game',
+    'battle.apps.BattleConfig',
     'units.apps.UnitsConfig',
 ]
 

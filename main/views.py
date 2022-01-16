@@ -145,6 +145,10 @@ class UserListViewSet(viewsets.ViewSet):
         queryset = UsersOfTown.objects.all().order_by('id')
         return Response(UsersOfTownSerializer(queryset, many=True).data)
 
+    def retrieve(self, request, *args, **kwargs):  # kwargs - параметр подходит для get
+        queryset = UsersOfTown.objects.filter(UsersID=kwargs['pk'])
+        return Response(UsersOfTownSerializer(queryset, many=True).data)
+
     @action(detail=True, methods=['post'])
     def edit_user_town(self, request, pk=None):
         serializer = UsersOfTownSerializer(data=request.data)

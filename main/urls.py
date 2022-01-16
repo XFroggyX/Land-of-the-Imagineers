@@ -1,10 +1,9 @@
 from django.conf.urls import url
-from django.conf.urls import include
 from django.urls import include
 from rest_framework import routers
 
-from towns.views import user_count_view
-from .views import TownViewSet, towns_list, snippet_detail, create_town, users_towns_list, StructTownViewSet, \
+from battle.views import BattleListViewSet
+from .views import TownViewSet, towns_list, snippet_detail,StructTownViewSet, \
     UserViewSet, UserListViewSet
 from . import views
 
@@ -13,8 +12,7 @@ router.register(r'town', TownViewSet, 'town')
 router.register(r'struct', StructTownViewSet, 'town')
 router.register(r'user', UserViewSet, 'town')
 router.register(r'user_list', UserListViewSet, 'town')
-# router.register('api/list', towns_list.as_view(), 'town_list'),
-# router.register('api/list/<int:pk>', snippet_detail.as_view(), 'town_detail')
+router.register(r'battle', BattleListViewSet, 'battle')
 
 
 urlpatterns = [
@@ -26,9 +24,5 @@ urlpatterns = [
     url('api/list', towns_list),
     url('api/list/<int:pk>', snippet_detail),
     url('api/', include(router.urls)),
-    url('api/current_user', views.current_user)
-    # url('api/struct/', user_town_list),
-    # url('api/struct/<int:pk>', user_town_detail),
+    url('api/current_user', views.current_user),
 ]
-
-# urlpatterns += router.urls
