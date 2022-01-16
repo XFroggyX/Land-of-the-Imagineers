@@ -1,7 +1,10 @@
+import sys
+
 from django.shortcuts import render
 
 from buildings.models import Building
 from towns.models import PointsTown
+from units.models import Unit
 
 
 def gen_point_town(size_town):
@@ -17,9 +20,8 @@ def gen_point_town(size_town):
 
 
 def gen_build_town(builds):
-    town_build = Building.objects.all()
     for key, value in builds.items():
-        if not Building.objects.filter(name_building=key):
+        if Building.objects.filter(name_building=key):
             continue
         obj = Building()
         obj.name_building = key
@@ -32,6 +34,18 @@ def gen_build_town(builds):
         obj.save()
 
 
+def gen_unit(units):
+    for key, value in units.items():
+        if Unit.objects.filter(name_unit=key):
+            continue
+        obj = Unit()
+        obj.name_unit = key
+        obj.unit_level = value['unit_level']
+        obj.unit_health = value['unit_health']
+        obj.unit_attack = value['unit_attack']
+        obj.save()
+
+
 def display_field(request):
     gen_point_town(6)
     builds = {}
@@ -41,5 +55,10 @@ def display_field(request):
                          'size_warehouse': 40}
     builds["Склад"] = {'building_level': 1, 'building_health': 50, 'stone': 5, 'wood': 8, 'iron': 4,
                        'size_warehouse' : 30}
+
+    units = {}
+    units["Воин"] = {'unit_level': 1, 'unit_health': 10, 'unit_attack': 4}
+    gen_unit(units)
+
     gen_build_town(builds)
     return render(request, 'field.html')
