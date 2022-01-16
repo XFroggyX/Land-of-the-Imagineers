@@ -7,9 +7,9 @@ class Town(models.Model):
     name_town = models.CharField(max_length=50)
     point_x = models.IntegerField()
     point_y = models.IntegerField()
-    stone = models.PositiveIntegerField()
-    wood = models.PositiveIntegerField()
-    iron = models.PositiveIntegerField()
+    stone = models.PositiveIntegerField(default=0)
+    wood = models.PositiveIntegerField(default=0)
+    iron = models.PositiveIntegerField(default=0)
 
 
 class PointsTown(models.Model):
