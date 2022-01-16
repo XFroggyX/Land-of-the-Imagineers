@@ -19,9 +19,9 @@ router.register(r'battle', BattleListViewSet, 'battle')
 urlpatterns = [
     url(r'login/', views.login_page),
     url(r'main/', include('field_game.urls')),
-    url(r'sign_up/', views.sign_up),
+    url(r'sign_up/', views.sign_up) ,
     url('api/list', towns_list),
     url('api/list/<int:pk>', snippet_detail),
-    url('api/', include(router.urls))
-    url('api/current_user', views.current_user)
+    url('api/', include(router.urls)),
+    url('api/current_user', views.current_user),
 ]
