@@ -18,7 +18,4 @@ def create_unit(unit_id, town_id):
 
 
 def index(request):
-    A = Town.objects.get(id=1)
-    B = Unit.objects.get(id=1)
-    create_unit(B, A)
     return HttpResponse("Unit")
