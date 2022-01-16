@@ -6,7 +6,6 @@ from battle.views import BattleListViewSet
 from .views import TownViewSet, towns_list, snippet_detail,StructTownViewSet, \
     UserViewSet, UserListViewSet
 from . import views
-from towns.views import user_count_view
 
 router = routers.SimpleRouter()
 router.register(r'town', TownViewSet, 'town')
@@ -20,6 +19,8 @@ urlpatterns = [
     url(r'login/', views.login_page),
     url(r'main/', include('field_game.urls')),
     url(r'sign_up/', views.sign_up) ,
+    url(r'check/', include("units.urls")),
+    # url('api/user_list', users_towns_list),
     url('api/list', towns_list),
     url('api/list/<int:pk>', snippet_detail),
     url('api/', include(router.urls)),
