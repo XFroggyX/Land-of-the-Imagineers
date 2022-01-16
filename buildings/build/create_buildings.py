@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-
 from buildings.build.buildings import *
 
 from buildings.models import Building
@@ -15,11 +13,11 @@ class ConcreteCastle(BuildingsCreator):
     def create_building(self, buildings_bd: Building) -> Buildings:
         item = buildings_bd.objects.filter(name_building="Замок")[0]
         return Castle(item.name_building, item.building_level, item.building_health, item.stone, item.wood,
-                      item.iron, item.size_warehouse, item.id_unit)
+                      item.iron, item.size_warehouse)
 
 
 class ConcreteWarehouse(BuildingsCreator):
     def create_building(self, buildings_bd: Building) -> Buildings:
         item = buildings_bd.objects.filter(name_building="Склад")[0]
         return Warehouse(item.name_building, item.building_level, item.building_health, item.stone, item.wood,
-                      item.iron, item.size_warehouse, item.id_unit)
+                         item.iron, item.size_warehouse)
