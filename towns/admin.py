@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Town, PointsTown, PointsTownsBuilding
+from .models import Town, PointsTown, PointsTownsBuilding, TownUnit
 
 
 class TownsAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class TownsAdmin(admin.ModelAdmin):
 admin.site.register(Town, TownsAdmin)
 admin.site.register(PointsTown)
 admin.site.register(PointsTownsBuilding)
+admin.site.register(TownUnit)
