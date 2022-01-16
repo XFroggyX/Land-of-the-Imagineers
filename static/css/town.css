@@ -21,15 +21,18 @@ html {
 }
 
 main {
-	margin-top: 50px;
+	margin-top: 90px;
 
 	background-color: #fff;
 }
 
 	main section {
+		display: block;
+		text-align: center;
 		float: left;
 
 		margin: 25px;
+		paddingЖ 5px;
 
 		width: 200px;
 		height: 250px;
@@ -65,8 +68,12 @@ footer {
 		border: 4px solid #54292f;
 	}
 
-img {
+    footer img {
+        width: 90%;
+        height: 90%;
+    }
 
-	width: 90%;
-	height: 90%;
-}
+    main img {
+        width: 90%;
+        height: 90%;
+    }

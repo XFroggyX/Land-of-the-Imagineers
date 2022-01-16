@@ -12,35 +12,55 @@
     {% csrf_token %}
 
 	<header>
-		<a href="/main/town/">
-			<p class="header">В город</p>
+		<a href ="{% url 'town' %}">
+			<img src="{% static 'img/header/town.png' %}">
 		</a>
-		<a>
-			<p class="header">На карту</p>
+		<a href="{% url 'map' %}">
+			<img src="{% static 'img/header/compas.png' %}">
 		</a>
 
 		<section>
-			<h3 class="header res">Железо: </h3>
-
-			<h3 class="header res">Дерево: </h3>
-
-			<h3 class="header res">Камень: </h3>
+			<div class="res">
+				<img src="{% static 'img/header/iron.png' %}">
+				<h3>123</h3>
+			</div>
+			<div class="res">
+				<img src="{% static 'img/header/wood.png' %}">
+				<h3>123</h3>
+			</div>
+			<div class="res">
+				<img src="{% static 'img/header/stone.png' %}">
+				<h3>123</h3>
+			</div>
 		</section>
 	</header>
 
     <main>
-		<section>
 
-		</section>
 	</main>
 	<footer>
 		<button>
 			<div>
-				<h3>ЗАМОК</h3>
-				<img src="https://i.pinimg.com/originals/77/e9/75/77e975c13d64f6993bc26577f2d20c73.png">
+				<h3>Замок</h3>
+				<img src="{% static 'img/castle.png' %}">
 			</div>
 		</button>>
+
+		<button>
+			<div>
+				<h3>Казарма</h3>
+				<img src="{% static 'img/barracks.png' %}">
+			</div>
+		</button>>
+
+		<button>
+			<div>
+				<h3>Склад</h3>
+				<img src="{% static 'img/storage.png' %}">
+			</div>
+		</button>>
+
 	</footer>
 
-
+    <script type="module" src="{% static 'js/town.js' %}" ></script>
 </body>

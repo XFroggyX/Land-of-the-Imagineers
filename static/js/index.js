@@ -2,6 +2,7 @@ import * as THREE from './three.module.js'
 import {THREEx} from './threex.domevents.js'
 import {MapControls} from './OrbitControls.js'
 import * as jQuery from './jquery-3.6.0.js'
+import {GLTFLoader} from './GLTFLoader.js'
 
 const canvas = document.querySelector('.canvas');
 const body = document.querySelector('body');
@@ -9,7 +10,7 @@ const body = document.querySelector('body');
 const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0x95d8c8 );
+scene.background = new THREE.Color( 0xc0c0c0 );
 
 const EDGE_LEN = 20;
 
@@ -17,7 +18,8 @@ const width = canvas.clientWidth;
 const height = canvas.clientHeight;
 
 const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 1000);
-camera.position.set(EDGE_LEN / 2, 5, EDGE_LEN / 2)
+camera.position.set(EDGE_LEN / 2, 5, EDGE_LEN / 2);
+
 
 
 const controls = new MapControls( camera, renderer.domElement );
@@ -33,6 +35,10 @@ controls.panSpeed = 2
 
 controls.minDistance = 5;
 controls.maxDistance = 5;
+
+controls.minPolarAngle = 0.79; // radians
+controls.maxPolarAngle = 0.79; // radians
+
 
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(0, 10, 0)
@@ -96,6 +102,7 @@ function makeInstance(geometry, x, y, z) {
     });
 
     const cube = new THREE.Mesh(geometry, material);
+
     scene.add(cube)
 
     cube.position.x = x;
@@ -130,7 +137,7 @@ function makeInstance(geometry, x, y, z) {
             iron: 100
         },
             success: function(data){
-                cube.material.map = town_texture;
+
             }
         });
         $('#createCity').modal('hide');
@@ -181,5 +188,26 @@ function updateTowns()
 });
 }
 
+
+function setTown(name_town) {
+    $.ajax({
+        url: '/api/user_list/1/edit_user_town/',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+            town_name: name_town,
+            wood: 100,
+            iron: 100,
+            stone: 100,
+            points: {
+                   1: {
+                   nameBuild: "Замок",
+                   lvl: 1
+                   }
+            }
+        },
+    });
+}
 
 requestAnimationFrame(render);

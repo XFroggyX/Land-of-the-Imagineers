@@ -23,20 +23,27 @@
 <body>
     {% csrf_token %}
 
-    <header>
-		<a>
-			<p class="header">В город</p>
+	<header>
+		<a href ="{% url 'town' %}">
+			<img src="{% static 'img/header/town.png' %}">
 		</a>
-		<a>
-			<p class="header">На карту</p>
+		<a href="{% url 'map' %}">
+			<img src="{% static 'img/header/compas.png' %}">
 		</a>
 
 		<section>
-			<h3 class="header res">Железо: </h3>
-
-			<h3 class="header res">Дерево: </h3>
-
-			<h3 class="header res">Камень: </h3>
+			<div class="res">
+				<img src="{% static 'img/header/iron.png' %}">
+				<h3>123</h3>
+			</div>
+			<div class="res">
+				<img src="{% static 'img/header/wood.png' %}">
+				<h3>123</h3>
+			</div>
+			<div class="res">
+				<img src="{% static 'img/header/stone.png' %}">
+				<h3>123</h3>
+			</div>
 		</section>
 	</header>
 
