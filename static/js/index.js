@@ -72,6 +72,20 @@ $(document).on('hidden.bs.modal','#createCity', function (){
 
 updateTowns();
 
+let id = 0;
+let username = "";
+$.ajax({
+	url: '/api/current_user/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        id = data.id;
+        username = data.username;
+    }
+});
+
+
+
 function render() {
     if (resizeRendererToDisplaySize(renderer)) {
         const canvas = renderer.domElement;
@@ -120,7 +134,7 @@ function makeInstance(geometry, x, y, z) {
 
       var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-
+      updateTowns();
       button.onclick = function() {
         var val = input.value
         $.ajax({
@@ -137,11 +151,12 @@ function makeInstance(geometry, x, y, z) {
             iron: 100
         },
             success: function(data){
-
+                console.log(data);
+                setTowms();
+                updateTowns();
             }
         });
         $('#createCity').modal('hide');
-        updateTowns();
       };
     }, false)
 
@@ -154,7 +169,7 @@ function createPopup(){
     popup.id = 'popup';
 
     popup.innerHTML = '' +
-        '<div class="modal fade" style="width:660px;" id="createCity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
+        '<div class="modal fade" id="createCity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
             '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
                     '<div class="modal-body container">' +
@@ -174,6 +189,29 @@ function createPopup(){
 }
 
 
+function setTowms()
+{
+    $.ajax({
+	url: '/api/town/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        $.ajax({
+        url: 'http://127.0.0.1:8000/api/user_list/1/edit_user_town/',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+            UsersID: id,
+            TownsID: data[Object.keys(data).length - 1].id
+        }
+        });
+
+    }
+    });
+}
+
+
 function updateTowns()
 {
     $.ajax({
@@ -185,29 +223,8 @@ function updateTowns()
             cubes[data[index].point_x][data[index].point_y].material.map = town_texture;
         }
     }
-});
-}
-
-
-function setTown(name_town) {
-    $.ajax({
-        url: '/api/user_list/1/edit_user_town/',
-        method: 'post',
-        dataType: 'json',
-        data: {
-            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
-            town_name: name_town,
-            wood: 100,
-            iron: 100,
-            stone: 100,
-            points: {
-                   1: {
-                   nameBuild: "Замок",
-                   lvl: 1
-                   }
-            }
-        },
     });
 }
+
 
 requestAnimationFrame(render);

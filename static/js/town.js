@@ -2,41 +2,86 @@ import * as jQuery from './jquery-3.6.0.js'
 
 const main = document.querySelector('main');
 
+console.log(123);
+
+let id = 0;
+let username = "";
 $.ajax({
 	url: '/api/current_user/',
 	method: 'get',
 	dataType: 'json',
 	success: function(data){
-        console.log(data.username);
+        id = data.id;
+        username = data.username;
     }
-  });
+});
+
+let townsID = 0;
+let countBuild = 0;
+
+let obj;
 
 
-let mass = {
-    1: {
-        "nameBuild": "Замок",
-        "lvl": 2
-    },
-    2: {
-        "nameBuild": "Казарма",
-        "lvl": 2
-    },
-    3: {
-        "nameBuild": "Склад",
-        "lvl": 2
+$.ajax({
+	url: '/api/user_list/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        for(let i = 0; i < data.length; ++i) {
+            if(data[i].UsersID == id)
+            {
+               townsID = data[0].TownsID;
+
+               $.ajax({
+                    url: '/api/struct/' + townsID +'/',
+                    method: 'get',
+                    dataType: 'json',
+                    success: function(data){
+                        let len = 1;
+                        for(; len < Object.keys(data.points).length; ++len) {
+                            if($.isEmptyObject(data.points[len]))
+                                break;
+                        }
+
+                        countBuild = len - 1;
+
+                        console.log(countBuild);
+                        obj = data;
+
+                        for (let i = 1; i < len; i++) {
+                            view_buildings(data.points[i].nameBuild);
+                        }
+                    }
+                });
+
+            }
+        }
     }
-}
+});
 
 
-let len = Object.keys(mass).length;
+const castle = document.querySelector('#castle');
+const barracks = document.querySelector('#barracks');
+const storage = document.querySelector('#storage');
 
-for (let i = 1; i < len + 1; i++) {
-    console.log(mass[i].nameBuild);
-    console.log(mass[i].lvl);
-    add_buildings(mass[i].nameBuild);
-}
 
-function add_buildings(build) {
+castle.onclick = function() {
+    add_buildings("Замок");
+};
+
+barracks.onclick = function() {
+    add_buildings("Казарма");
+};
+
+storage.onclick = function() {
+    add_buildings("Склад");
+};
+
+
+
+
+
+function view_buildings(build) {
 
     let name_build = build;
     let img_src;
@@ -57,4 +102,32 @@ function add_buildings(build) {
 				'</div>';
 
     main.appendChild(build);
+};
+
+console.log({});
+function add_buildings(build) {
+    obj.points[countBuild + 1].nameBuild = "Замок";
+    obj.points[countBuild + 1].lvl = 1;
+
+    if(countBuild < 6) {
+        $.ajax({
+            url: '/api/struct/' + townsID +  '/edit_town/',
+            method: 'post',
+            data:{
+                csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+                townName: obj.townName,
+                wood: obj.wood,
+                iron: obj.iron,
+                stone: obj.stone,
+                points: obj.points
+            },
+            success: function(data){
+                alert("YES");
+            },
+            error: function(data){
+                console.log(data);
+                console.log(obj.points);
+            }
+            });
+    }
 }

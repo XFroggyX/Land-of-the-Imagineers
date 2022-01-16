@@ -108,6 +108,7 @@ class StructTownViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=['post'])
     def edit_town(self, request, pk=None):
+        sys.stdout.write(f"{request.data}")
         serializer = TownStructSerializer(data=request.data)
         if serializer.is_valid():
             return Response(edit_struct_town(pk, request.data))
