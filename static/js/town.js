@@ -54,7 +54,7 @@ $.ajax({
         for(let i = 0; i < data.length; ++i) {
             if(data[i].UsersID == id)
             {
-               townsID = data[0].TownsID;
+               townsID = data[i].TownsID;
 
                $.ajax({
                     url: '/api/struct/' + townsID +'/',
