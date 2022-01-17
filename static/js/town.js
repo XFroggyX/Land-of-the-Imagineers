@@ -109,6 +109,30 @@ function add_buildings(build) {
     obj.points[countBuild + 1].nameBuild = "Замок";
     obj.points[countBuild + 1].lvl = 1;
 
+    var points_ = {
+        1: {
+        },
+        2: {
+        },
+        3: {
+        },
+        4: {
+        },
+        5: {
+        },
+        6: {
+        }
+    };
+
+    alert(countBuild);
+    for(let i = 1; i <= countBuild + 1; ++i)
+    {
+        points_[i].nameBuild = obj.points[i].nameBuild;
+        points_[i].lvl = obj.points[i].lvl;
+    }
+
+    console.log(points_);
+
     if(countBuild < 6) {
         $.ajax({
             url: '/api/struct/' + townsID +  '/edit_town/',
@@ -119,7 +143,7 @@ function add_buildings(build) {
                 wood: obj.wood,
                 iron: obj.iron,
                 stone: obj.stone,
-                points: obj.points
+                points: points_
             },
             success: function(data){
                 alert("YES");

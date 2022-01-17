@@ -1,0 +1,135 @@
+.popup-button-attack {
+    background-image: url("../../static/img/attack-city-hover.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transition: background-image 0.5s ease;
+
+    width: 80%;
+}
+
+.popup-button-attack:hover{
+    background-image: url("../../static/img/attack-city.png");
+}
+.popup-button-attack:active{
+    background-image: url("../../static/img/attack-city-active.png");
+}
+@font-face {
+    font-family: 'Conv_shylock_nbp';
+    src: url('fonts/shylock_nbp.eot');
+    src: local('🤡'), url('fonts/shylock_nbp.woff') format('woff'), url('fonts/shylock_nbp.ttf') format('truetype'), url('fonts/shylock_nbp.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.popup-label label{
+    background-color: transparent;
+
+    padding-left: 10%;
+
+    outline: none;
+    border: none;
+
+    color: #bad2e5;
+    font-size: xxx-large;
+    transition: background-image 0.5s ease;
+
+    display: block;
+    margin: 0 auto;
+    height: 85px;
+    padding: 0px;
+}
+
+body{
+    background-color: rgba(26, 26, 26, 0.4);
+    font-family: "Conv_shylock_nbp";
+    font-size: xxx-large;
+}
+
+.modal-dialog{
+    height: 100%;
+    border: none;
+
+    display: flex;
+    margin: 0 auto;
+}
+.modal-content{
+    background-image: url("../../static/img/create-popup.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    border: none;
+    height: 250px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+.modal-content-win{
+    background-image: url("../../static/img/win.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    border: none;
+    height: 250px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+.modal-content-lose{
+    background-image: url("../../static/img/lose.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    border: none;
+    height: 250px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+.modal-body{
+
+    border: none;
+    padding: 0;
+}
+
+.in-input{
+    background-color: transparent;
+
+    padding-left: 10%;
+
+    outline: none;
+    border: none;
+
+    color: aliceblue;
+    font-size: xxx-large;
+    transition: background-image 0.5s ease;
+
+    display: block;
+    margin: 0 auto;
+    height: 85px;
+}
+
+.in-button{
+    background-color: transparent;
+
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+
+.container{
+    display: flex;
+    flex-flow: column;
+    margin-top: 50px;
+}
+.element{
+    margin: 0 auto;
+}

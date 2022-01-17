@@ -79,8 +79,26 @@ $.ajax({
 	method: 'get',
 	dataType: 'json',
 	success: function(data){
-        id = data.id;
-        username = data.username;
+            id = data.id;
+            username = data.username;
+    }
+});
+
+
+let townsID = 0;
+$.ajax({
+	url: '/api/user_list/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        for(let i = 0; i < data.length; ++i) {
+            if(data[i].UsersID == id){
+               townsID = data[0].TownsID;
+               break;
+            }
+            townsID = null;
+        }
+        alert(townsID);
     }
 });
 
@@ -125,7 +143,28 @@ function makeInstance(geometry, x, y, z) {
 
     cube.rotation.x = -1.5708;
 
+
     domEvents.addEventListener(cube, 'click', function(event){
+        var flag = false;
+        $.ajax({
+        url: '/api/town/',
+        method: 'get',
+        async : false,
+        dataType: 'json',
+        success: function(data){
+            for (let index = 0; index < data.length; ++index) {
+                if (data[index].point_x == cube.position.x && data[index].point_y == cube.position.z)
+                {
+                    flag = true;
+                    console.log("YEh");
+                    break;
+                }
+            }
+        }
+        });
+
+      if(townsID == null && flag == 0) {
+
       body.appendChild(createPopup());
       $('#createCity').modal('show');
 
@@ -152,16 +191,32 @@ function makeInstance(geometry, x, y, z) {
         },
             success: function(data){
                 console.log(data);
-                setTowms();
+                setTowns();
                 updateTowns();
             }
         });
         $('#createCity').modal('hide');
       };
+    }
+      else if (townsID != null && flag == 1) {
+      body.appendChild(createAttackPopup());
+      $('#attackCity').modal('show');
+
+      var button = document.getElementById("pop-but");
+
+      updateTowns();
+      button.onclick = function() {
+        $('#attackCity').modal('hide');
+      };
+
+    }
     }, false)
 
     return cube;
 }
+
+
+
 
 
 function createPopup(){
@@ -189,7 +244,73 @@ function createPopup(){
 }
 
 
-function setTowms()
+function createAttackPopup(){
+    var popup = document.createElement("div");
+    popup.id = 'popup';
+
+    popup.innerHTML = '' +
+    '<div class="modal fade" id="attackCity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+    '<div class="modal-dialog">'+
+        '<div class="modal-content">'+
+                '<div class="modal-body container">'+
+                    '<div class="popup-label element">'+
+                        '<label>%cityname%</label>'+
+                    '</div>'+
+                    '<div class="popup-button-attack element">'+
+                        '<button id="pop-but" class="in-button"></button>+'
+                        '</div>'+
+                   ' </div>'+
+                '</div>'+
+        '</div>'+
+    '</div>'+
+'</div>';
+
+    return popup;
+}
+
+
+function createLosePopup(){
+    var popup = document.createElement("div");
+    popup.id = 'popup';
+
+    popup.innerHTML = '' +
+    '<div class="modal fade" id="attackLose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+    '<div class="modal-dialog">'+
+        '<div class="modal-content-lose">'+
+            '<div class="popup-input element">'+
+                '<input class="in-input pb-3" type="text">'+
+            '</div>'+
+        '</div>'+
+    '</div>'+
+'</div>';
+
+    return popup;
+}
+
+
+function createVictoryPopup(){
+    var popup = document.createElement("div");
+    popup.id = 'popup';
+    popup.innerHTML = '' +
+    '<div class="modal fade" id="attackWin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+    '<div class="modal-dialog">'+
+        '<div class="modal-content-win">'+
+                '<div class="modal-body container">'+
+                    '<div class="popup-input element">'+
+                        '<input class="in-input pb-3" type="text">'+
+                    '</div>'+
+                '</div>'+
+        '</div>'+
+    '</div>'+
+'</div>';
+
+    return popup;
+}
+
+
+
+
+function setTowns()
 {
     $.ajax({
 	url: '/api/town/',
