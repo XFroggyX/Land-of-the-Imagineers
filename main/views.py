@@ -11,7 +11,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from towns.models import Town
+from towns.models import Town, TownUnit
 from towns.serializers import TownSerializer
 from towns.town.town import get_struct_town, edit_struct_town
 from units.views import create_unit
@@ -120,6 +120,19 @@ class StructTownViewSet(viewsets.ViewSet):
     def create_unit(self, request, pk=None):
         return Response(create_unit(request.data['unit_id'], pk))
 
+    @action(detail=True, methods=['get'])
+    def all_units_in_town(self, request, pk=None):
+        all_units = 0
+        item = TownUnit.objects.filter(id_town=pk)
+        print(item)
+        if not item:
+            return Response({'count_units': all_units})
+        else:
+            for i in range(len(item)):
+                print(all_units)
+                all_units += item[i].count_units
+            return Response({'count_units': all_units})
+
 
 new = {
     "UsersID": 1,
@@ -162,6 +175,7 @@ class UserListViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+
 
     # queryset = UsersOfTown.objects.all().order_by('id')
     # serializer_class = UsersOfTownSerializer(queryset, many=True)
