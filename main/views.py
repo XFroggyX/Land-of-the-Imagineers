@@ -124,12 +124,10 @@ class StructTownViewSet(viewsets.ViewSet):
     def all_units_in_town(self, request, pk=None):
         all_units = 0
         item = TownUnit.objects.filter(id_town=pk)
-        print(item)
         if not item:
             return Response({'count_units': all_units})
         else:
             for i in range(len(item)):
-                print(all_units)
                 all_units += item[i].count_units
             return Response({'count_units': all_units})
 
