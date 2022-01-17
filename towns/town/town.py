@@ -177,6 +177,7 @@ def get_town_obj(id_town) -> Town:
 
 def edit_struct_town(id_town, data: dict) -> str:
     town = get_town_obj(id_town)
+    sys.stdout.write(f"#{data}")
     return town.edit_struct(data)
 
 

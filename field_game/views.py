@@ -45,7 +45,6 @@ def gen_unit(units):
         obj.unit_attack = value['unit_attack']
         obj.save()
 
-
 def display_field(request):
     gen_point_town(6)
     builds = {}

@@ -8,7 +8,6 @@ from units.models import Unit
 
 def create_unit(unit_id, town_id):
     item = TownUnit.objects.filter(id_unit=unit_id, id_town=town_id)
-    print(item)
     if not item:
         item = TownUnit.objects.create(id_town=Town.objects.get(id=town_id), id_unit=Unit.objects.get(id=unit_id),
                                        count_units=1)

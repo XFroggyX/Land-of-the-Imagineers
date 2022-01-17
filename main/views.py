@@ -107,14 +107,39 @@ class StructTownViewSet(viewsets.ViewSet):
     def retrieve(self, request, *args, **kwargs):  # kwargs - параметр подходит для get
         return Response(get_struct_town(kwargs['pk']))
 
+    @staticmethod
+    def dict_pars_edit_town(request_data) -> dict:
+        data = {"points":{}}
+        point = {}
+        step = len('points[')
+        for key, value in request_data.items():
+            if key == 'csrfmiddlewaretoken':
+                continue
+
+
+            if key.count('points'):
+                if key.count('nameBuild') and 'nameBuild' not in point:
+                    point['nameBuild'] = value
+                elif key.count('lvl'):
+                    point['lvl'] = value
+
+                if 'nameBuild' in point and 'lvl' in point:
+                    end = key.index(']')
+                    data['points']["".join(key[step::end])] = point
+                    point = {}
+                continue
+
+            data[key] = value
+        return data
+
     @action(detail=True, methods=['post'])
     def edit_town(self, request, pk=None):
-        sys.stdout.write(f"{request.data}")
-        serializer = TownStructSerializer(data=request.data)
-        if serializer.is_valid():
-            return Response(edit_struct_town(pk, request.data))
+        sys.stdout.write(f"${self.dict_pars_edit_town(request.data)}")
+        serializer = self.dict_pars_edit_town(request.data)
+        if serializer:
+            return Response(edit_struct_town(pk, self.dict_pars_edit_town(request.data)))
         else:
-            return Response(serializer.errors,
+            return Response(serializer,
                             status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
