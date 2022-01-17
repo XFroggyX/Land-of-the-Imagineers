@@ -13,8 +13,25 @@ $.ajax({
 	success: function(data){
         id = data.id;
         username = data.username;
+
+        $.ajax({
+            url: '/api/struct/'+ id +'/create_unit/',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+                unit_id: 1
+            },
+            success: function(data){
+            }
+        });
+
     }
 });
+
+
+
+
 
 let townsID = 0;
 let countBuild = 0;
@@ -48,6 +65,10 @@ $.ajax({
                         console.log(countBuild);
                         obj = data;
 
+                        iron.textContent = obj.iron;
+                        wood.textContent = obj.wood;
+                        stone.textContent = obj.stone;
+
                         for (let i = 1; i < len; i++) {
                             view_buildings(data.points[i].nameBuild);
                         }
@@ -63,6 +84,15 @@ $.ajax({
 const castle = document.querySelector('#castle');
 const barracks = document.querySelector('#barracks');
 const storage = document.querySelector('#storage');
+
+var unit = document.querySelector('#unit');
+var iron = document.querySelector('#iron');
+var wood = document.querySelector('#wood');
+var stone = document.querySelector('#stone');
+
+
+
+
 
 
 castle.onclick = function() {
@@ -137,6 +167,7 @@ function add_buildings(build) {
         $.ajax({
             url: '/api/struct/' + townsID +  '/edit_town/',
             method: 'post',
+            dataType: 'json',
             data:{
                 csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
                 townName: obj.townName,

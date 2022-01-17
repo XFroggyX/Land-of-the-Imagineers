@@ -81,19 +81,20 @@ $.ajax({
 	success: function(data){
             id = data.id;
             username = data.username;
+            console.log(data);
     }
 });
 
-
-let townsID = 0;
+var townsID = null;
 $.ajax({
 	url: '/api/user_list/',
 	method: 'get',
 	dataType: 'json',
 	success: function(data){
+	    console.log(data);
         for(let i = 0; i < data.length; ++i) {
             if(data[i].UsersID == id){
-               townsID = data[0].TownsID;
+               townsID = data[i].TownsID;
                break;
             }
             townsID = null;
