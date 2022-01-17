@@ -103,14 +103,24 @@ var stone = document.querySelector('#stone');
 
 
 castle.onclick = function() {
+    obj.points[countBuild + 1].nameBuild = "Замок";
+    obj.points[countBuild + 1].lvl = 1;
+
     add_buildings("Замок");
 };
 
 barracks.onclick = function() {
-    add_buildings("Казарма");
+    obj.points[countBuild + 1].nameBuild = "Казармы";
+    obj.points[countBuild + 1].lvl = 1;
+
+    console.log("Казармы");
+    add_buildings("Казармы");
 };
 
 storage.onclick = function() {
+    obj.points[countBuild + 1].nameBuild = "Склад";
+    obj.points[countBuild + 1].lvl = 1;
+
     add_buildings("Склад");
 };
 
@@ -125,7 +135,7 @@ function view_buildings(build) {
 
     if (build == "Замок") {
         img_src = "/static/img/castle.png";
-    } else if (build == "Казарма") {
+    } else if (build == "Казармы") {
         img_src = "/static/img/barracks.png";
     } else if (build == "Склад") {
         img_src = "/static/img/storage.png";
@@ -143,9 +153,6 @@ function view_buildings(build) {
 
 console.log({});
 function add_buildings(build) {
-    obj.points[countBuild + 1].nameBuild = "Замок";
-    obj.points[countBuild + 1].lvl = 1;
-
     var points_ = {
         1: {
         },
@@ -161,14 +168,11 @@ function add_buildings(build) {
         }
     };
 
-    alert(countBuild);
     for(let i = 1; i <= countBuild + 1; ++i)
     {
         points_[i].nameBuild = obj.points[i].nameBuild;
         points_[i].lvl = obj.points[i].lvl;
     }
-
-    console.log(points_);
 
     if(countBuild < 6) {
         $.ajax({
