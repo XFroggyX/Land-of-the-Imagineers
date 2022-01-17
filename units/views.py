@@ -14,10 +14,8 @@ def create_unit(unit_id, town_id):
     else:
         item[0].count_units += 1
         item[0].save()
+    return {"result": "ok"}
 
 
 def index(request):
-    A = Town.objects.get(id=1)
-    B = Unit.objects.get(id=1)
-    create_unit(B, A)
     return HttpResponse("Unit")
