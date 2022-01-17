@@ -8,16 +8,16 @@ from units.models import Unit
 
 def create_unit(unit_id, town_id):
     item = TownUnit.objects.filter(id_unit=unit_id, id_town=town_id)
+    print(item)
     if not item:
-        item = TownUnit.objects.create(id_unit=unit_id, id_town=town_id, count_units=1)
+        item = TownUnit.objects.create(id_town=Town.objects.get(id=town_id), id_unit=Unit.objects.get(id=unit_id),
+                                       count_units=1)
         item.save()
     else:
         item[0].count_units += 1
         item[0].save()
+    return {"result": "ok"}
 
 
 def index(request):
-    A = Town.objects.get(id=1)
-    B = Unit.objects.get(id=1)
-    create_unit(B, A)
     return HttpResponse("Unit")
