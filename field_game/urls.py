@@ -5,5 +5,6 @@ from django.conf.urls import include
 from . import views
 
 urlpatterns = [
-    path(r'map/', views.display_field)
+    path(r'map/', views.display_field, name='map'),
+    path(r'town/', views.display_town, name="town")
 ]

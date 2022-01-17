@@ -1,3 +1,19 @@
+.popup-button-attack {
+    background-image: url("../../static/img/attack-city-hover.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transition: background-image 0.5s ease;
+
+    width: 80%;
+}
+
+.popup-button-attack:hover{
+    background-image: url("../../static/img/attack-city.png");
+}
+.popup-button-attack:active{
+    background-image: url("../../static/img/attack-city-active.png");
+}
 @font-face {
     font-family: 'Conv_shylock_nbp';
     src: url('fonts/shylock_nbp.eot');
@@ -6,9 +22,29 @@
     font-style: normal;
 }
 
+
+.popup-label label{
+    background-color: transparent;
+
+    padding-left: 10%;
+
+    outline: none;
+    border: none;
+
+    color: #bad2e5;
+    font-size: xxx-large;
+    transition: background-image 0.5s ease;
+
+    display: block;
+    margin: 0 auto;
+    height: 85px;
+    padding: 0px;
+}
+
 body{
     background-color: rgba(26, 26, 26, 0.4);
     font-family: "Conv_shylock_nbp";
+    font-size: xxx-large;
 }
 
 .modal-dialog{
@@ -17,12 +53,35 @@ body{
 
     display: flex;
     margin: 0 auto;
-
-    font-size: xxx-large;
 }
-
 .modal-content{
     background-image: url("../../static/img/create-popup.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    border: none;
+    height: 250px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+.modal-content-win{
+    background-image: url("../../static/img/win.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    background-position:center;
+
+    border: none;
+    height: 250px;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+.modal-content-lose{
+    background-image: url("../../static/img/lose.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;
@@ -39,29 +98,6 @@ body{
     border: none;
     padding: 0;
 }
-.popup-button{
-    background-image: url("../../static/img/create-city-hover.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    transition: background-image 0.5s ease;
-
-    width: 80%;
-
-
-
-}
-
-.popup-input{
-    background-image: url("../../static/img/input.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: transparent;
-
-    width: 80%;
-
-
-}
 
 .in-input{
     background-color: transparent;
@@ -72,7 +108,7 @@ body{
     border: none;
 
     color: aliceblue;
-    font-size: xx-large;
+    font-size: xxx-large;
     transition: background-image 0.5s ease;
 
     display: block;

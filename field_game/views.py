@@ -62,3 +62,6 @@ def display_field(request):
 
     gen_build_town(builds)
     return render(request, 'field.html')
+
+def display_town(request):
+    return render(request, 'town.html')
