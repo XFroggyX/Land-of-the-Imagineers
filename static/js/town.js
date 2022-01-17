@@ -22,9 +22,16 @@ $.ajax({
                 csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
                 unit_id: 1
             },
+        });
+        $.ajax({
+            url: '/api/struct/'+ id +'/all_units_in_town/',
+            method: 'get',
+            dataType: 'json',
             success: function(data){
+                unit.textContent = data.count_units;
             }
         });
+
 
     }
 });
@@ -181,7 +188,7 @@ function add_buildings(build) {
             },
             error: function(data){
                 console.log(data);
-                console.log(obj.points);
+                console.log(points_);
             }
             });
     }

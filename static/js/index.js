@@ -77,6 +77,7 @@ let username = "";
 $.ajax({
 	url: '/api/current_user/',
 	method: 'get',
+	async: false,
 	dataType: 'json',
 	success: function(data){
             id = data.id;
@@ -100,6 +101,24 @@ $.ajax({
             townsID = null;
         }
         alert(townsID);
+    }
+});
+
+
+
+$.ajax({
+	url: '/api/battle/' + id +  '/get_result_battle/',
+	method: 'get',
+	dataType: 'json',
+	success: function(data){
+        if(data[0].result == id)
+        {
+           body.appendChild(createVictoryPopup());
+           $('#attackWin').modal('show');
+        } else {
+           body.appendChild(createLosePopup());
+           $('#attackLose').modal('show');
+        }
     }
 });
 
@@ -147,6 +166,8 @@ function makeInstance(geometry, x, y, z) {
 
     domEvents.addEventListener(cube, 'click', function(event){
         var flag = false;
+        var clickUserId;
+        var clickTownsId;
         $.ajax({
         url: '/api/town/',
         method: 'get',
@@ -157,7 +178,25 @@ function makeInstance(geometry, x, y, z) {
                 if (data[index].point_x == cube.position.x && data[index].point_y == cube.position.z)
                 {
                     flag = true;
-                    console.log("YEh");
+                    clickTownsId = data[index].id;
+
+
+                    $.ajax({
+                        url: '/api/user_list/',
+                        method: 'get',
+                        dataType: 'json',
+                        async: false,
+                        success: function(data){
+                            for(let i = 0; i < data.length; ++i) {
+                                if(data[i].TownsID == clickTownsId){
+                                   clickUserId = data[i].UsersID;
+                                   break;
+                                }
+                            }
+                            console.log(data);
+                        }
+                    });
+
                     break;
                 }
             }
@@ -171,8 +210,6 @@ function makeInstance(geometry, x, y, z) {
 
       var button = document.getElementById("pop-but");
       var input = document.getElementById("pop-inp");
-
-      var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
       updateTowns();
       button.onclick = function() {
@@ -207,6 +244,21 @@ function makeInstance(geometry, x, y, z) {
 
       updateTowns();
       button.onclick = function() {
+
+        $.ajax({
+        url: '/api/battle/start_battle/',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+            attacking: id,
+            defending: clickUserId
+        },
+            success: function(data){
+                updateTowns();
+            }
+        });
+
         $('#attackCity').modal('hide');
       };
 
@@ -278,7 +330,7 @@ function createLosePopup(){
     '<div class="modal fade" id="attackLose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
     '<div class="modal-dialog">'+
         '<div class="modal-content-lose">'+
-            '<div class="popup-input element">'+
+            '<div class="element">'+
                 '<input class="in-input pb-3" type="text">'+
             '</div>'+
         '</div>'+
@@ -297,7 +349,7 @@ function createVictoryPopup(){
     '<div class="modal-dialog">'+
         '<div class="modal-content-win">'+
                 '<div class="modal-body container">'+
-                    '<div class="popup-input element">'+
+                    '<div class="element">'+
                         '<input class="in-input pb-3" type="text">'+
                     '</div>'+
                 '</div>'+
