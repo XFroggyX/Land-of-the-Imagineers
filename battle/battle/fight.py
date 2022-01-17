@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 import operator
 
 from battle.models import Battle
+from towns.models import TownUnit, Town
+from units.models import Unit
+from main.models import UsersOfTown
 
 
 def record_battle_in_db(attackingID, defendingID, winnerID):
@@ -36,3 +39,22 @@ def get_all_battle_result(id):
         up.save()
 
     return all_battle
+
+
+def fight(attack_user_id, defender_user_id):
+    power_a = 0
+    power_d = 0
+    attack_obj = UsersOfTown.objects.get(UsersID_id=attack_user_id)
+    defender_obg = UsersOfTown.objects.get(UsersID_id=defender_user_id)
+    attack_town_id = attack_obj.TownsID_id
+    defender_town_id = defender_obg.TownsID_id
+    attack_all_units = TownUnit.objects.filter(id_town_id=attack_town_id)
+    defender_all_units = TownUnit.objects.filter(id_town_id=defender_town_id)
+    for i in range(len(attack_all_units)):
+        power_a += attack_all_units[i].count_units * Unit.objects.get(id=attack_all_units[i].id_unit_id).unit_attack
+    for i in range(len(defender_all_units)):
+        power_d += defender_all_units[i].count_units * Unit.objects.get(id=defender_all_units[i].id_unit_id).unit_attack
+    if power_a > power_d:
+        return [attack_user_id, defender_user_id]
+    else:
+        return [defender_user_id, attack_user_id]
