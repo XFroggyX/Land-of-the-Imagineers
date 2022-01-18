@@ -23,7 +23,7 @@ from .serializers import UsersOfTownSerializer, TownStructSerializer, UserSerial
 def login_page(request):
     user = request.user
     if user.is_authenticated:
-        return redirect("/town")
+        return redirect("/map-")
     if request.method == "GET":
         pass
     if request.method == "POST":
@@ -31,7 +31,7 @@ def login_page(request):
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect("/town")
+        return redirect("/map")
 
     return render(request, 'login.html', dict())
 
